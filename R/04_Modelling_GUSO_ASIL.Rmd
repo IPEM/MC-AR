@@ -174,23 +174,23 @@ modelH3_Multi_basic <- run_model_cmdstanr(Data,formMulti,"gaussian",prior0)
 
 fit <- modelH3_Multi_basic
 
-formWPQ  <- bf(WPQ ~ 1 + condition  * logresponse0M_procustus + (1  | A | condition:participant) + (1 | B | condition:trial) )
-formMPQS <- bf(MPQS ~ 1 + condition  * logresponse0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) )
-formMPQP <- bf(MPQP ~ 1 + condition   * logresponse0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) )
+formWPQ  <- bf(WPQ ~ 1 + condition  * log_response0M_procustus + (1  | A | condition:participant) + (1 | B | condition:trial) )
+formMPQS <- bf(MPQS ~ 1 + condition  * log_response0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) )
+formMPQP <- bf(MPQP ~ 1 + condition   * log_response0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) )
 formMulti = formWPQ + formMPQS + formMPQP
 modelH3_Multi_metric <- run_model_cmdstanr(Data,formMulti,"gaussian",prior0)
 
 fit <- modelH3_Multi_metric
 
-post_analysis_Multi_basic <- do_post_analysis_Multi(modelH3_Multi_basic)
+post_analysis_Multi_basic <- do_post_analysis_Multi(modelH3_Multi_basic) ## this throws an error WARNING!!!
 hypothesis_testH3_Multi_basic_WPQ <- hypothesis(modelH3_Multi_basic,"b_WPQ_condition2 > 0", class = NULL)
 hypothesis_testH3_Multi_basic_MPQS <- hypothesis(modelH3_Multi_basic,"b_MPQS_condition2 > 0", class = NULL)
 hypothesis_testH3_Multi_basic_MPQP <- hypothesis(modelH3_Multi_basic,"b_MPQP_condition2 > 0 ", class = NULL)
 
-post_analysis_Multi_metric <- do_post_analysis_Multi(modelH3_Multi_metric)
-hypothesis_testH3_Multi_metric_WPQ <- hypothesis(modelH3_Multi_metric,"b_WPQ_condition2:logresponse0M_procustus + b_WPQ_condition2 > b_WPQ_logresponse0M_procustus", class = NULL)
-hypothesis_testH3_Multi_metric_MPQS <- hypothesis(modelH3_Multi_metric,"b_MPQS_condition2:logresponse0M_procustus + b_MPQS_condition2 > b_MPQS_logresponse0M_procustus", class = NULL)
-hypothesis_testH3_Multi_metric_MPQP <- hypothesis(modelH3_Multi_metric,"b_MPQP_condition2:logresponse0M_procustus + b_MPQP_condition2 > b_MPQP_logresponse0M_procustus", class = NULL)
+post_analysis_Multi_metric <- do_post_analysis_Multi(modelH3_Multi_metric) ## this throws an error WARNING!!!
+hypothesis_testH3_Multi_metric_WPQ <- hypothesis(modelH3_Multi_metric,"b_WPQ_condition2:log_response0M_procustus + b_WPQ_condition2 > b_WPQ_log_response0M_procustus", class = NULL)
+hypothesis_testH3_Multi_metric_MPQS <- hypothesis(modelH3_Multi_metric,"b_MPQS_condition2:log_response0M_procustus + b_MPQS_condition2 > b_MPQS_log_response0M_procustus", class = NULL)
+hypothesis_testH3_Multi_metric_MPQP <- hypothesis(modelH3_Multi_metric,"b_MPQP_condition2:log_response0M_procustus + b_MPQP_condition2 > b_MPQP_log_response0M_procustus", class = NULL)
 comparison_procustus_Multi_metric <- do_comparison(modelH3_Multi_basic,modelH3_Multi_metric)
 
 save(file = "Results/modelH3_Multi_basic.RData", modelH3_Multi_basic)

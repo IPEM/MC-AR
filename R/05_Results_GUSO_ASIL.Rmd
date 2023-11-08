@@ -46,7 +46,7 @@ BF_model_comparison_procustus1M <- do_BF_comparison(model_procustus1M,model_proc
 post_analysis_procustus1M <- do_post_analysis(model_procustus1M)
 hypothesis_test_procustus1M <- do_hypothesis_test(model_procustus1M)
 
-BF_model_comparison_sparc1M <- do_BF_comparison(model_sparc1M,model_sparc1M_d)
+BF_model_comparison_sparc1M <- do_BF_comparison(model_sparc1M,model_sparc1M_d) ## this throws an error as well WARNING!!!
 post_analysis_sparc1M <- do_post_analysis(model_sparc1M)
 hypothesis_test_sparc1M <- do_hypothesis_test(model_sparc1M)
 
@@ -119,62 +119,7 @@ make_fig("FiguresPaper/ConditionTrialsPostDistr_Sparc1M",p1)
 
 ```
 
-
-
-
-
-
-# Testing TSM responses (obtained from smooths)
-
-```{r}
-load(file = "Fit/model_procustusTSM.RData")
-load(file = "Fit/model_procustusTSM_d.RData")
-
-BF_model_comparison_procustusTSM <- do_BF_comparison(model_procustusTSM,model_procustusTSM_d)
-post_analysis_procustusTSM <- do_post_analysis(model_procustusTSM)
-hypothesis_test_procustusTSM <- do_hypothesis_test(model_procustusTSM)
-
-
-save(file = "Results/BF_model_comparison_procustusTSM.RData", BF_model_comparison_procustusTSM)
-save(file = "Results/post_analysis_procustusTSM.RData", post_analysis_procustusTSM)
-save(file = "Results/hypothesis_test_procustusTSM.RData", hypothesis_test_procustusTSM)
-
-```
-
-#### Sparc over trials
-```{r}
-load(file = "Fit/model_procustusTSM.RData")
-fit <- model_procustusTSM
-
-sd <- fit %>% spread_draws(`r_condition:trial`[A,Intercept],`b_condition1`,`b_condition2`) 
-sd_11 <- sd %>% filter(A == c("1_1")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_1", c = "1", t = "1" )
-sd_12 <- sd %>% filter(A == c("1_2")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_2", c = "1", t = "2" )
-sd_13 <- sd %>% filter(A == c("1_3")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_3", c = "1", t = "3" )
-sd_14 <- sd %>% filter(A == c("1_4")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_4", c = "1", t = "4" )
-sd_21 <- sd %>% filter(A == c("2_1")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_1", c = "2", t = "1" )
-sd_22 <- sd %>% filter(A == c("2_2")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_2", c = "2", t = "2" )
-sd_23 <- sd %>% filter(A == c("2_3")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_3", c = "2", t = "3" )
-sd_24 <- sd %>% filter(A == c("2_4")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_4", c = "2", t = "4" )
-
-sd_ct <- rbind(sd_11, sd_12, sd_13, sd_14, sd_21, sd_22, sd_23, sd_24)
-
-p1 <- sd_ct %>% 
-  ggplot(aes(x= t, y = ct_values, color = c)) + 
-  stat_pointinterval(.width = c(.5,.95), position = position_dodge(width = 0.2)) +
-  theme_bw() +
-  xlab("trial") +
-  ylab("Post. distr. (ci-50/95%) of condition and trials") +
-  ggtitle("ProcustusTSM")
-
-make_fig("FiguresPaper/ConditionTrialsPostDistr_procustusTSM",p1)
-
-```
-
-
-
-
 # ##############################
-
 # questionnaires
 # ##############################
 
@@ -219,7 +164,7 @@ post_analysis_procustus_basicDifficulty <- do_post_analysis(modelH3_Difficulty) 
 
 # Contrasts: 
 # 
-Contrast_WPQ <- do_hypothesis_test_Q(modelH3_WPQ)
+Contrast_WPQ <- do_hypothesis_test_Q(modelH3_WPQ) ## this throws an error: do_hypothesis_test_Q is not found! WARNING!!!
 Contrast_MPQS <- do_hypothesis_test_Q(modelH3_MPQS)
 Contrast_WPQP <- do_hypothesis_test_Q(modelH3_MPQP)
 Contrast_Difficulty <- do_hypothesis_test_Q(modelH3_Difficulty)
@@ -252,70 +197,70 @@ save(file = "Results/post_analysis_procustus_basicDifficulty.RData", post_analys
 # Hypothesis 3: Procustus - non-calibrated non-Multivariate models
 ```{r H3proc1, echo=TRUE}
 load(file = "Results/post_analysis_procustus_basicWPQ.RData")
-load(file = "Results/post_analysis_procustus0M_WPQ.RData")
-load(file = "Results/hypothesis_test_procustus_basicWPQ.RData")
-load(file = "Results/hypothesis_test_procustus0M_WPQ.RData")
-load(file = "Results/comparison_basic_procustus_WPQ.RData")
+load(file = "Results/post_analysis_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
+load(file = "Results/hypothesis_test_procustus_basicWPQ.RData") # this throws an error! WARNING!!!
+load(file = "Results/hypothesis_test_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
+load(file = "Results/comparison_basic_procustus_WPQ.RData") # this throws an error! WARNING!!!
 
 load(file = "Results/post_analysis_procustus_basicMPQS.RData")
-load(file = "Results/post_analysis_procustus0M_MPQS.RData")
-load(file = "Results/hypothesis_test_procustus_basicMPQS.RData")
-load(file = "Results/hypothesis_test_procustus0M_MPQS.RData")
-load(file = "Results/comparison_basic_procustus_MPQS.RData")
+load(file = "Results/post_analysis_procustus0M_MPQS.RData") # this throws an error! WARNING!!!
+load(file = "Results/hypothesis_test_procustus_basicMPQS.RData") # this throws an error! WARNING!!!
+load(file = "Results/hypothesis_test_procustus0M_MPQS.RData") # this throws an error! WARNING!!!
+load(file = "Results/comparison_basic_procustus_MPQS.RData") # this throws an error! WARNING!!!
 
 load(file = "Results/post_analysis_procustus_basicMPQP.RData")
-load(file = "Results/post_analysis_procustus0M_MPQP.RData")
-load(file = "Results/hypothesis_test_procustus_basicMPQP.RData")
-load(file = "Results/hypothesis_test_procustus0M_MPQP.RData")
-load(file = "Results/comparison_basic_procustus_MPQP.RData")
+load(file = "Results/post_analysis_procustus0M_MPQP.RData") # this throws an error! WARNING!!!
+load(file = "Results/hypothesis_test_procustus_basicMPQP.RData") # this throws an error! WARNING!!!
+load(file = "Results/hypothesis_test_procustus0M_MPQP.RData") # this throws an error! WARNING!!!
+load(file = "Results/comparison_basic_procustus_MPQP.RData") # this throws an error! WARNING!!!
 
 
 # basicWPQ
 post_analysis_procustus_basicWPQ
-hypothesis_test_procustus_basicWPQ
+hypothesis_test_procustus_basicWPQ # WARNING!!!
 # metricWPQ
-post_analysis_procustus0M_WPQ
-hypothesis_test_procustus0M_WPQ
+post_analysis_procustus0M_WPQ # WARNING!!!
+hypothesis_test_procustus0M_WPQ  # WARNING!!!
 # comparison basicWPQ and metricWPQ
-comparison_basic_procustus_WPQ
+comparison_basic_procustus_WPQ # WARNING!!!
 
 # basicMPQS
 post_analysis_procustus_basicMPQS
-hypothesis_test_procustus_basicMPQS
+hypothesis_test_procustus_basicMPQS # WARNING!!!
 # metricMPQS
-post_analysis_procustus0M_MPQS
-hypothesis_test_procustus0M_MPQS
+post_analysis_procustus0M_MPQS # WARNING!!!
+hypothesis_test_procustus0M_MPQS # WARNING!!!
 # comparison basicMPQS and metricMPQS
-comparison_basic_procustus_MPQS
+comparison_basic_procustus_MPQS # WARNING!!!
 
 # basicMPQP
 post_analysis_procustus_basicMPQP
-hypothesis_test_procustus_basicMPQP
+hypothesis_test_procustus_basicMPQP # WARNING!!!
 # metricMPQP
-post_analysis_procustus0M_MPQP
-hypothesis_test_procustus0M_MPQP
+post_analysis_procustus0M_MPQP # WARNING!!!
+hypothesis_test_procustus0M_MPQP # WARNING!!!
 # comparison basicMPQP and metricMPQP
-comparison_basic_procustus_MPQP
+comparison_basic_procustus_MPQP # WARNING!!!
 ```
 
 # Hypothesis 3: Multivariate model procustus non-cali
 ```{r H3proc1, echo=TRUE}
 
 
-load("Results/post_analysis_Multi_basic.RData")
+load("Results/post_analysis_Multi_basic.RData") # WARNING
 load("Results/hypothesis_testH3_Multi_basic_WPQ.RData")
 load("Results/hypothesis_testH3_Multi_basic_MPQS.RData")
 load("Results/hypothesis_testH3_Multi_basic_MPQP.RData")
 
 
-load(file = "Results/post_analysis_Multi_metric.RData")
+load(file = "Results/post_analysis_Multi_metric.RData") # WARNING
 load(file = "Results/hypothesis_testH3_Multi_metric_WPQ.RData")
 load(file = "Results/hypothesis_testH3_Multi_metric_MPQS.RData")
 load(file = "Results/hypothesis_testH3_Multi_metric_MPQP.RData")
 load(file = "Results/comparison_procustus_Multi_metric.RData")
 
 # multivariate model basic
-post_analysis_Multi_basic
+post_analysis_Multi_basic # WARNING
 hypothesis_testH3_Multi_basic_WPQ
 hypothesis_testH3_Multi_basic_MPQS
 hypothesis_testH3_Multi_basic_MPQP
@@ -324,7 +269,7 @@ hypothesis_testH3_Multi_basic_MPQP
 
 
 # multivariate model metric
-post_analysis_Multi_metric
+post_analysis_Multi_metric # WARNING
 hypothesis_testH3_Multi_metric_WPQ
 hypothesis_testH3_Multi_metric_MPQS
 hypothesis_testH3_Multi_metric_MPQP
@@ -340,97 +285,19 @@ comparison_procustus_Multi_metric
 ```{r H3proc2, eval=FALSE, include=FALSE}
 
 
-load(file = "Results/post_analysis_procustus1M_WPQ.RData")
-load(file = "Results/hypothesis_test_procustus1M_WPQ.RData")
+load(file = "Results/post_analysis_procustus1M_WPQ.RData") # WARNING
+load(file = "Results/hypothesis_test_procustus1M_WPQ.RData") # WARNING
 
-load(file = "Results/post_analysis_procustus1M_MPQS.RData")
-load(file = "Results/hypothesis_test_procustus1M_MPQS.RData")
+load(file = "Results/post_analysis_procustus1M_MPQS.RData") # WARNING
+load(file = "Results/hypothesis_test_procustus1M_MPQS.RData") # WARNING
 
-load(file = "Results/post_analysis_procustus1M_MPQP.RData")
-load(file = "Results/hypothesis_test_procustus1M_MPQP.RData")
+load(file = "Results/post_analysis_procustus1M_MPQP.RData") # WARNING
+load(file = "Results/hypothesis_test_procustus1M_MPQP.RData") # WARNING
 
-post_analysis_procustus1M_WPQ
-hypothesis_test_procustus1M_WPQ
-post_analysis_procustus1M_MPQS
-hypothesis_test_procustus1M_MPQS
-post_analysis_procustus1M_MPQP
-hypothesis_test_procustus1M_MPQP
+post_analysis_procustus1M_WPQ  # WARNING
+hypothesis_test_procustus1M_WPQ # WARNING
+post_analysis_procustus1M_MPQS # WARNING
+hypothesis_test_procustus1M_MPQS # WARNING
+post_analysis_procustus1M_MPQP # WARNING
+hypothesis_test_procustus1M_MPQP # WARNING
 ```
-
-# Timeseries: Extra check via gams
-
-The conclusion is that the models show better results (higher post.probs) but there is no difference in conclusion from previous models.
-
-```{r extracheck, eval=FALSE, include=FALSE}
-formTSM_procustus <- bf(responseTSM_procustus ~ 1 + condition  + MSI_s + (1 | condition:participant) + (1|condition:trial) )
-priorTSM <- c(brms::prior(normal(0, 3), class = "b"))
-model_procustusTSM <- run_model_cmdstanr(Data,formTSM_procustus,"skew_normal",priorTSM)
-post_analysis_procustusTSM <- do_post_analysis(model_procustusTSM)
-hypothesis_testTSM <- do_hypothesis_test(model_procustusTSM)
-
-priorTSM_basic <- c(brms::prior(normal(0, 3), class = "b"))
-priorTSM <- c(brms::prior(normal(0, 3), class = "b"), 
-             brms::prior(normal(0,3), class = "b", coef = "responseTSM_procustus"))
-formH3responseTSM_procustus_basic <- bf(WPQ ~ 1 + condition  + MSI_s  +  (1  |  condition:participant + condition:trial))
-formH3responseTSM_procustus <- bf(WPQ ~ 1 + responseTSM_procustus * condition  + MSI_s  +  (1  |  condition:participant + condition:trial))
-
-modelH3responseTSM_WPQ_basic <- run_model_cmdstanr(Data,formH3responseTSM_procustus_basic,"gaussian",priorTSM_basic)
-modelH3responseTSM_WPQ <- run_model_cmdstanr(Data,formH3responseTSM_procustus,"gaussian",priorTSM )
-
-
-post_analysis_procustusTSM_basic <- do_post_analysis(modelH3responseTSM_WPQ_basic)
-hypothesis_testTSM_basic <- do_hypothesis_test(modelH3responseTSM_WPQ_basic)
-post_analysis_procustusTSM_WPQ <- do_post_analysis(modelH3responseTSM_WPQ)
-hypothesis_test_procustusTSM_WPQ <- hypothesis(modelH3responseTSM_WPQ,"b_responseTSM_procustus:condition2 + b_condition2 > b_responseTSM_procustus", class = NULL)
-
-comparison_basic_procustusTSM_WPQ <- do_comparison(modelH3responseTSM_WPQ_basic,modelH3responseTSM_WPQ)
-
-
-save(file = "Results/model_procustusTSM.RData",model_procustusTSM)
-save(file = "Results/modelH3responseTSM_WPQ_basic.RData",modelH3responseTSM_WPQ_basic)
-save(file = "Results/modelH3responseTSM_WPQ.RData",modelH3responseTSM_WPQ)
-
-
-
-save(file = "Results/post_analysis_procustusTSM.RData"   ,post_analysis_procustusTSM)  
-save(file = "Results/hypothesis_testTSM.RData",hypothesis_testTSM)
-   save (file = "Results/post_analysis_procustusTSM_basic.RData",post_analysis_procustusTSM_basic)
-   save (file = "Results/hypothesis_testTSM_basic.RData",hypothesis_testTSM_basic)
-   save (file = "Results/post_analysis_procustusTSM_WPQ.RData",post_analysis_procustusTSM_WPQ)
-   save (file = "Results/hypothesis_test_procustusTSM_WPQ.RData",hypothesis_test_procustusTSM_WPQ)
-   
-   save(file = "Results/comparison_basic_procustusTSM_WPQ.RData", comparison_basic_procustusTSM_WPQ)
-
-```
-
-```{r extracheckshow, echo=TRUE}
-load("Results/post_analysis_procustusTSM.RData")    
-load("Results/hypothesis_testTSM.RData")
-load("Results/post_analysis_procustusTSM_basic.RData")
-load("Results/hypothesis_testTSM_basic.RData")
-    load("Results/post_analysis_procustusTSM_WPQ.RData")
-    load("Results/hypothesis_test_procustusTSM_WPQ.RData")
-   load("Results/comparison_basic_procustusTSM_WPQ.RData")
-
-    
-# Time series model (calibrated per group) procustus
-post_analysis_procustusTSM     
-hypothesis_testTSM
-# WPQ basic (without metric)
-    post_analysis_procustusTSM_basic
-    hypothesis_testTSM_basic
-# WPQ (with metric)
-    post_analysis_procustusTSM_WPQ
-    hypothesis_test_procustusTSM_WPQ
-# Comparison basic model (without metric) versus model with metric
-  comparison_basic_procustusTSM_WPQ
-```
-          
-      
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-
-
-
-
