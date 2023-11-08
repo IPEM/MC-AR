@@ -34,4 +34,3 @@ The package includes the following functions:
 2. **Figure 2**
 ![Figure 2](https://github.com/IPEM/SIMPAC/blob/main/Matlab/Assets/Figure_2.jpg)
    Caption: Joint angle data of the participant (red) and avatar (blue), including flexion/extension (FE) and adduction/abduction (AA) of the wrist, FE and pronation/supination (PS) of the elbow, elevation (E), and PS of the shoulder, and bowing position.
-   

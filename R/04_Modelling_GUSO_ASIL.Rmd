@@ -182,12 +182,12 @@ modelH3_Multi_metric <- run_model_cmdstanr(Data,formMulti,"gaussian",prior0)
 
 fit <- modelH3_Multi_metric
 
-post_analysis_Multi_basic <- do_post_analysis_Multi(modelH3_Multi_basic) ## this throws an error WARNING!!!
+### post_analysis_Multi_basic <- do_post_analysis_Multi(modelH3_Multi_basic) ## this throws an error WARNING!!!
 hypothesis_testH3_Multi_basic_WPQ <- hypothesis(modelH3_Multi_basic,"b_WPQ_condition2 > 0", class = NULL)
 hypothesis_testH3_Multi_basic_MPQS <- hypothesis(modelH3_Multi_basic,"b_MPQS_condition2 > 0", class = NULL)
 hypothesis_testH3_Multi_basic_MPQP <- hypothesis(modelH3_Multi_basic,"b_MPQP_condition2 > 0 ", class = NULL)
 
-post_analysis_Multi_metric <- do_post_analysis_Multi(modelH3_Multi_metric) ## this throws an error WARNING!!!
+### post_analysis_Multi_metric <- do_post_analysis_Multi(modelH3_Multi_metric) ## this throws an error WARNING!!!
 hypothesis_testH3_Multi_metric_WPQ <- hypothesis(modelH3_Multi_metric,"b_WPQ_condition2:log_response0M_procustus + b_WPQ_condition2 > b_WPQ_log_response0M_procustus", class = NULL)
 hypothesis_testH3_Multi_metric_MPQS <- hypothesis(modelH3_Multi_metric,"b_MPQS_condition2:log_response0M_procustus + b_MPQS_condition2 > b_MPQS_log_response0M_procustus", class = NULL)
 hypothesis_testH3_Multi_metric_MPQP <- hypothesis(modelH3_Multi_metric,"b_MPQP_condition2:log_response0M_procustus + b_MPQP_condition2 > b_MPQP_log_response0M_procustus", class = NULL)
@@ -196,13 +196,13 @@ comparison_procustus_Multi_metric <- do_comparison(modelH3_Multi_basic,modelH3_M
 save(file = "Results/modelH3_Multi_basic.RData", modelH3_Multi_basic)
 save(file = "Results/modelH3_Multi_metric.RData", modelH3_Multi_metric)
 
-save(file = "Results/post_analysis_Multi_basic.RData", post_analysis_Multi_basic)
+### save(file = "Results/post_analysis_Multi_basic.RData", post_analysis_Multi_basic)
 save(file = "Results/hypothesis_testH3_Multi_basic_WPQ.RData", hypothesis_testH3_Multi_basic_WPQ)
 save(file = "Results/hypothesis_testH3_Multi_basic_MPQS.RData", hypothesis_testH3_Multi_basic_MPQS)
 save(file = "Results/hypothesis_testH3_Multi_basic_MPQP.RData", hypothesis_testH3_Multi_basic_MPQP)
 
 
-save(file = "Results/post_analysis_Multi_metric.RData", post_analysis_Multi_metric)
+### save(file = "Results/post_analysis_Multi_metric.RData", post_analysis_Multi_metric)
 save(file = "Results/hypothesis_testH3_Multi_metric_WPQ.RData", hypothesis_testH3_Multi_metric_WPQ)
 save(file = "Results/hypothesis_testH3_Multi_metric_MPQS.RData", hypothesis_testH3_Multi_metric_MPQS)
 save(file = "Results/hypothesis_testH3_Multi_metric_MPQP.RData", hypothesis_testH3_Multi_metric_MPQP)

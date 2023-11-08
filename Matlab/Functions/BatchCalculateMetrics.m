@@ -29,7 +29,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     PlaceHolder4 = [];
 
     % process mocap data and extract bow position data
-    for idx = 1:5%numel(AllMocapFiles) 
+    for idx = 1:numel(AllMocapFiles) 
     
         PathToMocapFile = fullfile(AllMocapFiles(idx).folder, AllMocapFiles(idx).name);
     
@@ -42,6 +42,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     
         if contains(PathToMocapFile,'F1')
     
+            % piece F1 -> tag 1
             F = 1;
             
             if contains(PathToMocapFile,'Avatar')
@@ -57,7 +58,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
                 AvatarTag1 = nan(length(FID),2);
                 AvatarTag1(:,2) = FID;
                 AvatarTag1(1:length(spectrogramOutput),1) = spectrogramOutput;
-                AvatarTag1 = [ones(4,1),ones(4,1);AvatarTag1];
+                AvatarTag1 = [ones(4,1),F*ones(4,1);AvatarTag1]; % indicates violin section, and piece
                 AvatarTag1 = repmat(AvatarTag1,1,1,2);
                 AvatarTag1(5:end,2,2) = Result.ProcessedMocapData.ProcessedData.BowPositionData.DV(:,1);
     
@@ -110,6 +111,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     
         elseif contains(PathToMocapFile,'F2')
     
+            % piece F2 -> tag 2
             F = 2;
             
             if contains(PathToMocapFile,'Avatar')
@@ -125,7 +127,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
                 AvatarTag2 = nan(length(FID),2);
                 AvatarTag2(:,2) = FID;
                 AvatarTag2(1:length(spectrogramOutput),1) = spectrogramOutput;
-                AvatarTag2 = [ones(4,1),2*ones(4,1);AvatarTag2];
+                AvatarTag2 = [ones(4,1),F*ones(4,1);AvatarTag2]; % indicates violin section, and piece
                 AvatarTag2 = repmat(AvatarTag2,1,1,2);
                 AvatarTag2(5:end,2,2) = Result.ProcessedMocapData.ProcessedData.BowPositionData.DV(:,1);
     
@@ -178,6 +180,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     
         elseif contains(PathToMocapFile,'F3')
     
+            % piece F3 -> tag 1
             F = 1;
             
             if contains(PathToMocapFile,'Avatar')
@@ -193,7 +196,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
                 AvatarTag3 = nan(length(FID),2);
                 AvatarTag3(:,2) = FID;
                 AvatarTag3(1:length(spectrogramOutput),1) = spectrogramOutput;
-                AvatarTag3 = [2*ones(4,1),3*ones(4,1);AvatarTag3];
+                AvatarTag3 = [2*ones(4,1),F*ones(4,1);AvatarTag3]; % indicates violin section, and piece
                 AvatarTag3 = repmat(AvatarTag3,1,1,2);
                 AvatarTag3(5:end,2,2) = Result.ProcessedMocapData.ProcessedData.BowPositionData.DV(:,1);
     
@@ -246,6 +249,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     
         elseif contains(PathToMocapFile,'F4')
     
+            % piece F4 -> tag 2
             F = 2;
             
             if contains(PathToMocapFile,'Avatar')
@@ -261,7 +265,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
                 AvatarTag4 = nan(length(FID),2);
                 AvatarTag4(:,2) = FID;
                 AvatarTag4(1:length(spectrogramOutput),1) = spectrogramOutput;
-                AvatarTag4 = [2*ones(4,1),4*ones(4,1);AvatarTag4];
+                AvatarTag4 = [2*ones(4,1),F*ones(4,1);AvatarTag4]; % indicates violin section, and piece
                 AvatarTag4 = repmat(AvatarTag4,1,1,2);
                 AvatarTag4(5:end,2,2) = Result.ProcessedMocapData.ProcessedData.BowPositionData.DV(:,1);
     
@@ -341,100 +345,64 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     BowLength_disp_22 = BatchExtractFeatures(DataF4,0.15,150,0,3);  
     disp('Finished processing of MoCap data.')
 
-    % Extract questionnaire data (PQ, MPQS, MPQP) 
+    %% Extract questionnaire data (PQ, MPQS, MPQP, Difficulty) 
     disp('Extracting Questionnaire data.')
     C1 = dir([DataFolderPath,'/**/C1.csv']);
     C1 = ImportFile(fullfile(C1.folder,C1.name));
     C2 = dir([DataFolderPath,'/**/C2.csv']);
     C2 = ImportFile(fullfile(C2.folder,C2.name));
     
-    pp = DataF1(4,3:end,1);
-    cc = DataF1(2,3:end,1);
-    sel = (pp(cc==1))'; tags = [sel,ones(size(sel)),ones(size(sel)),ones(size(sel))];
-    pp = DataF2(4,3:end,1);
-    cc = DataF2(2,3:end,1);
-    sel = (pp(cc==1))'; tags = [tags;[sel,2*ones(size(sel)),ones(size(sel)),ones(size(sel))]];
-    pp = DataF3(4,3:end,1);
-    cc = DataF3(2,3:end,1);
-    sel = (pp(cc==1))'; tags = [tags;[sel,1*ones(size(sel)),ones(size(sel)),2*ones(size(sel))]];
-    pp = DataF4(4,3:end,1);
-    cc = DataF4(2,3:end,1);
-    sel = (pp(cc==1))'; tags = [tags;[sel,2*ones(size(sel)),ones(size(sel)),2*ones(size(sel))]];
-    [~,sel] = sort(tags(:,1)); tags = tags(sel,:); 
-    sel = find(tags(:,1) == 7); tags(sel(1),:) = [];
-    
-    TagC1 = [];
-    
-    TagC1(1,:) = tags(:,4)'; % section
-    TagC1(2,:) = tags(:,2)'; % piece
-    TagC1(3,:) = tags(:,3)'; % condition
-    TagC1(4,:) = C1.session'; % session
-    TagC1(5,:) = tags(:,1)'; % participant
-    
-    MPQP = table2array(mean(C1(:,17:21),2)); MPQP = [TagC1;MPQP']; MPQP = ReshapeFile(MPQP,6,0);
-    MPQS = table2array(mean(C1(:,22:26),2)); MPQS = [TagC1;MPQS']; MPQS = ReshapeFile(MPQS,5,0);
-    PQ = table2array(mean(C1(:,27:55),2)); PQ = [TagC1;PQ']; PQ = ReshapeFile(PQ,4,0); 
-    
-    TagC1 = [MPQP;MPQS;PQ];
-    
-    DummyData = [nan,2,2,1,2,7,1,4 ; ...
-        nan,2,2,1,2,7,1,5 ; ...
-        nan,2,2,1,2,7,1,6 ; ...
-        nan,2,2,1,2,7,1,7];
-    
-    TagC1 = [TagC1;DummyData];
-    
-    pp = DataF1(4,3:end,1);
-    cc = DataF1(2,3:end,1);
-    sel = (pp(cc==2))'; tags = [sel,ones(size(sel)),2*ones(size(sel)),ones(size(sel))];
-    pp = DataF2(4,3:end,1);
-    cc = DataF2(2,3:end,1);
-    sel = (pp(cc==2))'; tags = [tags;[sel,2*ones(size(sel)),2*ones(size(sel)),ones(size(sel))]];
-    pp = DataF3(4,3:end,1);
-    cc = DataF3(2,3:end,1);
-    sel = (pp(cc==2))'; tags = [tags;[sel,1*ones(size(sel)),2*ones(size(sel)),2*ones(size(sel))]];
-    pp = DataF4(4,3:end,1);
-    cc = DataF4(2,3:end,1);
-    sel = (pp(cc==2))'; tags = [tags;[sel,2*ones(size(sel)),2*ones(size(sel)),2*ones(size(sel))]];
-    [~,sel] = sort(tags(:,1)); tags = tags(sel,:); 
-    sel = find(tags(:,1) == 7); tags(sel(1),:) = [];
-    
-    TagC2 = [];
-    
-    TagC2(1,:) = tags(:,4)'; % section
-    TagC2(2,:) = tags(:,2)'; % piece
-    TagC2(3,:) = tags(:,3)'; % condition
-    TagC2(4,:) = C2.session'; % session
-    TagC2(5,:) = tags(:,1)'; % participant
-    
-    MPQP = table2array(mean(C1(:,17:21),2)); MPQP = [TagC2;MPQP']; MPQP = ReshapeFile(MPQP,6,0);
-    MPQS = table2array(mean(C1(:,22:26),2)); MPQS = [TagC2;MPQS']; MPQS = ReshapeFile(MPQS,5,0);
-    PQ = table2array(mean(C1(:,27:55),2)); PQ = [TagC2;PQ']; PQ = ReshapeFile(PQ,4,0);
-    
-    Difficulty_1 = [ tags(:,4)'; ...
-        ones(1,length(table2array(C1(:,65)))); ...
-        ones(1,length(table2array(C1(:,65)))); ... 
-        C1.session'; ...
-        C1.participant'; ...
-        table2array(C1(:,65))']; Difficulty_1(3,tags(:,2) == 1) = 2;
-    
-    Difficulty_2 = [ tags(:,4)'; ...
-        2*ones(1,length(table2array(C1(:,66)))); ...
-        ones(1,length(table2array(C1(:,66)))); ... 
-        C1.session'; ...
-        C1.participant'; ...
-        table2array(C1(:,66))']; Difficulty_2(3,tags(:,2) == 2) = 2;
-    
-    Difficulty = [Difficulty_1,Difficulty_2]; Difficulty = ReshapeFile(Difficulty,7,0);
-    
-    TagC2 = [MPQP;MPQS;PQ;Difficulty];
-    
-    DummyData = [nan,2,1,2,2,7,1,4 ; ...
-        nan,2,1,2,2,7,1,5 ; ...
-        nan,2,1,2,2,7,1,6 ; ...
-        nan,2,1,2,2,7,1,7];
-    
-    TagC2 = [TagC2;DummyData];
+    MPQP_C1 = table2array(mean(C1(:,17:21),2)); 
+    Tag = [nan(length(MPQP_C1),2),ones(length(MPQP_C1),1),C1.session,C1.participant,ones(length(MPQP_C1),1),6*ones(length(MPQP_C1),1)];
+    MPQP_C1 = [MPQP_C1,Tag];
+
+    MPQS_C1 = table2array(mean(C1(:,22:26),2)); 
+    Tag = [nan(length(MPQP_C1),2),ones(length(MPQP_C1),1),C1.session,C1.participant,ones(length(MPQP_C1),1),5*ones(length(MPQP_C1),1)];
+    MPQS_C1 = [MPQS_C1,Tag];
+
+    PQ_C1 = table2array(mean(C1(:,27:53),2)); 
+    Tag = [nan(length(MPQP_C1),2),ones(length(MPQP_C1),1),C1.session,C1.participant,ones(length(MPQP_C1),1),4*ones(length(MPQP_C1),1)];
+    PQ_C1 = [PQ_C1,Tag];
+
+    Difficulty_P1 = table2array(C1(:,65));
+    Tag = [nan(length(MPQP_C1),1),ones(length(MPQP_C1),1),nan(length(MPQP_C1),1),C1.session,C1.participant,ones(length(MPQP_C1),1),7*ones(length(MPQP_C1),1)];
+    Difficulty_P1 = [Difficulty_P1,Tag];
+
+    DummyData = [nan,nan,nan,1,2,7,1,4 ; ...
+        nan,nan,nan,1,2,7,1,5 ; ...
+        nan,nan,nan,1,2,7,1,6 ; ...
+        nan,nan,1,nan,2,7,1,7];
+
+    QData_1 = [MPQP_C1; MPQS_C1; PQ_C1; Difficulty_P1; DummyData]; 
+
+    %%
+    MPQP_C2 = table2array(mean(C2(:,17:21),2)); 
+    Tag = [nan(length(MPQP_C2),2),2*ones(length(MPQP_C2),1),C2.session,C2.participant,ones(length(MPQP_C2),1),6*ones(length(MPQP_C2),1)];
+    MPQP_C2 = [MPQP_C2,Tag];
+
+    MPQS_C2 = table2array(mean(C2(:,22:26),2)); 
+    Tag = [nan(length(MPQP_C2),2),2*ones(length(MPQP_C2),1),C2.session,C2.participant,ones(length(MPQP_C2),1),5*ones(length(MPQP_C2),1)];
+    MPQS_C2 = [MPQS_C2,Tag];
+
+    PQ_C2 = table2array(mean(C2(:,27:53),2)); 
+    Tag = [nan(length(MPQP_C2),2),2*ones(length(MPQP_C2),1),C2.session,C2.participant,ones(length(MPQP_C2),1),4*ones(length(MPQP_C2),1)];
+    PQ_C2 = [PQ_C2,Tag];
+
+    Difficulty_P2 = table2array(C2(:,65));
+    Tag = [nan(length(MPQP_C2),1),2*ones(length(MPQP_C2),1),nan(length(MPQP_C2),1),C2.session,C2.participant,ones(length(MPQP_C2),1),7*ones(length(MPQP_C2),1)];
+    Difficulty_P2 = [Difficulty_P2,Tag];
+
+    DummyData = [nan,nan,nan,2,2,7,1,4 ; ...
+        nan,nan,nan,2,2,7,1,5 ; ...
+        nan,nan,nan,2,2,7,1,6 ; ...
+        nan,nan,2,nan,2,7,1,7];
+
+    QData_2 = [MPQP_C2; MPQS_C2; PQ_C2; Difficulty_P2; DummyData]; 
+
+    QData = [QData_1;QData_2];
+
+    %%
+
     disp('Finished extracting Questionnaire data.')
 
     % reshape data, and construct final array
@@ -454,13 +422,32 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     Output_B_21 = ReshapeFile(BowLength_disp_21,3,1);
     Output_B_22 = ReshapeFile(BowLength_disp_22,3,1);
     
-    % output
+    %% retrieve some missing indeces (ugly)
+
+    tmp = [Output_P_11;Output_P_12;Output_P_21;Output_P_22];
+    tmp0 = [];
+    for idx = 1:11
+        sel = find(tmp(:,6)==idx & (tmp(:,5)==1 & tmp(:,4)==1));
+        tmp0(idx,:,1) = median(tmp(sel,2:4));
+        sel = find(tmp(:,6)==idx & (tmp(:,5)==1 & tmp(:,4)==2));
+        tmp0(idx,:,2) = median(tmp(sel,2:4));
+    end
+
+    for idx = 1:size(QData,1)
+
+        cc1 = QData(idx,6);
+        cc2 = find(squeeze(nansum((QData(idx,2:4) - tmp0(cc1,:,:))))==0);
+        QData(idx,2:4) = squeeze(tmp0(cc1,:,cc2));
+        
+    end
+
+    %% output
     DataArray = [Output_P_11; Output_P_12; Output_P_21; Output_P_22; ...
         Output_S_11; Output_S_12; Output_S_21; Output_S_22; ...
         Output_B_11; Output_B_12; Output_B_21; Output_B_22; ...
-        TagC1; TagC2];
+        QData];
 
     disp('Finished constructing data array. Writing data to disk.')
     writematrix(DataArray,[OutputPath,'/DataArray.csv'])
-    
+     
 end
