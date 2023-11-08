@@ -1,0 +1,131 @@
+---
+title: "03_DataPlotting"
+author: "ML"
+date: "8/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# General functions for plotting
+
+```{r}
+make_pdf_figure <- function(fn,fig){
+  fn_pdf = paste(fn,".pdf",sep="")
+  print(paste("plotting", fn_pdf))
+  pdf(file = fn_pdf ,width=9, height=8 )  #Note that you can convert inches to centimeters dividing by 2.54.
+  print(fig)
+  dev.off()
+}
+
+make_png_figure <- function(fn,fig){
+  fn_png = paste(fn,".png",sep="")
+  print(paste("plotting", fn_png))
+  png(filename=fn_png, width=7, height=3, units = "in", res = 300)
+  print(fig)
+  dev.off()
+}
+
+make_svg_figure <- function(fn,fig){
+  fn_svg = paste(fn,".svg",sep="")
+  print(paste("plotting", fn_svg))
+  svg(file = fn_svg ,width=7, height=3
+      #Note that you can convert inches to centimeters dividing by 2.54.
+  ) 
+  print(fig)
+  dev.off()
+}
+
+
+make_eps_figure <- function(fn,fig){
+  fn_eps = paste(fn,".eps",sep="")
+  print(paste("plotting", fn_eps))
+  postscript(file = fn_eps ,width=7, height=3
+             #Note that you can convert inches to centimeters dividing by 2.54.
+  ) 
+  print(fig)
+  dev.off()
+}
+
+make_fig <- function(fn,fig){
+  make_pdf_figure(fn,fig)
+  make_png_figure(fn,fig)
+  make_svg_figure(fn,fig)
+  make_eps_figure(fn,fig)
+}
+
+#prefix
+#make_fig("prefix",p1)
+```
+
+```{r}
+# ###################
+# do_plot function
+# ###################
+do_plot <- function(R){
+  G0 = R[[1]] #the model
+  G1 = R[[2]] #the model
+  D = R[[3]] #the data
+  P0 = R[[4]] #the predictions (via fitted_value)
+  P1 = R[[5]] #the smooth estimates (via smooth_estimates)
+
+  pl0 <- ggplot() +
+    geom_point(data = D, aes(x=timestep,y=feature), size=.75,alpha=.5) +
+    #geom_point(data = D, aes(x=timestep,y=feature, color=participantcondition),size=.75,alpha=.5) +
+   # geom_ribbon(data = P1, aes(x=timestep, ymin=lower, ymax=upper), alpha = .2)  +
+    geom_line(data = P0, aes(x=timestep, y = fitted), alpha = 1, size = 1, color = "red") +
+    geom_line(data = P0, aes(x=timestep, y = upper), alpha = .3, size = 1, color = "red") +
+    geom_line(data = P0, aes(x=timestep, y = lower), alpha = .3, size = 1, color = "red") +
+
+   # geom_ribbon(data = P0, aes(x=timestep, ymin=lower, ymax=upper), alpha = .2) +
+
+    geom_line(data = P1, aes(x=timestep, y = fitted), alpha = 1, size = 1, color = "blue") +
+    geom_line(data = P1, aes(x=timestep, y = upper), alpha = .3, size = 1, color = "blue") +
+    geom_line(data = P1, aes(x=timestep, y = lower), alpha = .3, size = 1, color = "blue") +
+
+   # ylim(0,400) + 
+    facet_wrap(~participantcondition) +
+    theme_bw()
+  
+  # return(list(pl0,pl1,pl2))
+  return(list(pl0))
+  
+}
+```
+
+
+```{r}
+do_plot_brms <- function(R){
+  # The palette with grey:
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+#  scale_fill_manual(values=cbPalette) +
+#  scale_colour_manual(values=cbPalette) +
+ 
+  
+  G0 = R[[1]] #the model
+  G1 = R[[2]] #the model
+  D = R[[3]] #the data
+  P0 = R[[4]] #the predictions (via fitted_value)
+  P1 = R[[5]] #the smooth estimates (via smooth_estimates)
+
+#P1_6.1 <- P1 %>% filter(participantcondition == "6.1")
+  pl0 <- ggplot() +
+    geom_point(data = D, aes(x=timestep,y=feature), shape = 1, size=1,alpha=.5) +
+    #geom_point(data = D, aes(x=timestep,y=feature, color=participantcondition),size=.75,alpha=.5) +
+   # geom_ribbon(data = P1, aes(x=timestep, ymin=lower, ymax=upper), alpha = .2)  +
+   
+        stat_lineribbon(data = P1, aes(x=timestep, y = .epred), alpha = 1, size = 1, .width=.1) + 
+        stat_lineribbon(data = P0, aes(x=timestep, y = .epred), alpha = 1, size = 1, color = "red", .width=.1)+
+      scale_fill_manual(values=cbPalette) +
+  scale_colour_manual(values=cbPalette) +
+        facet_wrap(~participantcondition) +
+    theme_bw()
+
+  # return(list(pl0,pl1,pl2))
+  return(list(pl0))
+  
+}
+
+```

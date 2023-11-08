@@ -1,0 +1,284 @@
+---
+title: "09_PowerAnalysis"
+output: html_document
+date: "2023-06-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### EXTRA power analysis
+### EXTRA power analysis
+### EXTRA power analysis
+
+The power of a statistical test is the probability that a null hypothesis will be rejected when the alternative hypothesis is true.
+
+
+```{r}
+# cohen = .5
+
+run_model_cmdstanr <- function(Data, form, fam, priors){
+  print(paste(form[1],fam,sep="\n"))
+  fit <- brm(data = Data,
+             formula = form,
+             family = fam,
+             prior = priors,
+             iter = 6000, warmup = 2000,
+             control = list(adapt_delta = 0.96,  max_treedepth = 12),
+             #init = 0,
+             #thin = 2,
+             chains = 2,
+             backend = "cmdstanr",
+             threads = threading(45) ,
+            # save_pars = save_pars(all = TRUE),
+            #
+           sample_prior = TRUE ,
+           refresh = 0,
+           silent = 2
+             #file = filen
+  )
+  return(fit)
+}
+```
+
+
+```{r}
+# hier nog de creatie van de dataset
+
+    condition1 <- rnorm(total/2,0.5,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition1")
+    condition2 <- rnorm(total/2,0,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition2")
+    condition <- rbind(condition1,condition2) 
+   ggplot(sim_dataset) +
+  geom_histogram(aes(response, color = condition.name),bins = 30)
+ 
+
+sim_form <- bf(response ~ 0 + condition.name + (1 | participant.name + trial.name))
+sim_prior <- c(brms::prior(normal(0.5, 1), class = "b"))
+
+ggplot(sim_dataset) +
+  geom_histogram(aes(response, color = condition.name),bins = 30)
+
+
+sim_model <- run_model_cmdstanr(sim_dataset,sim_form,"gaussian",sim_prior)
+```
+
+
+```{r}
+m_diff = 0.3
+
+
+    condition1 <- rnorm(total/2,m_diff,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition1")
+    condition2 <- rnorm(total/2,0,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition2")
+    condition <- rbind(condition1,condition2) 
+    cohend = m_diff /sd(condition$condition.value)
+    cohend
+
+```
+
+
+```{r echo=FALSE, warning=FALSE}
+Score <- data.frame()
+#Parti <- data.frame()
+
+nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
+sdParti <- c(0.25) # sd participants
+mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5) # for calculatingCohen's d
+
+# 1. Initialize
+ ## Create dataset
+        n_condition = 2
+        n_participant = 11
+        n_trial = 4
+        sd_participant = .25
+        total = n_condition * n_participant * n_trial
+        condition1 <- rnorm(total/2,0.2,1) %>% data.frame(condition.value = .) 
+        condition2 <- rnorm(total/2,0,1) %>% data.frame(condition.value = .) 
+        condition <- rbind(condition1,condition2) 
+        cohend = 0.2 /sd(condition$condition.value)
+        print(paste("cohend",cohend))
+        # dit kan beter door elke participant ook conditioneel te maken tov conditie
+        participant <- rnorm(total,0,sd_participant) %>% data.frame(participant.value = .) 
+        trial <- rnorm(total,0,0.1 ) %>% data.frame(trial.value = .) 
+        gr_value <- cbind(condition,participant,trial) %>% data.frame()
+        gr_name <- expand_grid(c("c1","c2"),factor(c(1:n_participant)),factor(c(1:n_trial)))  %>% data.frame()
+        names(gr_name) <- c("condition.name","participant.name","trial.name")
+        gr <- cbind(gr_value,gr_name)
+        sim_dataset <- gr %>% mutate(response = condition.value + participant.value + trial.value)
+        sim_dataset <- sim_dataset %>% mutate(condition.name = factor(condition.name),
+                                              participant.name = factor(participant.name),
+                                              trial.name = factor(trial.name))
+        
+        
+        sim_form <- bf(response ~ 0 + condition.name + (1 | participant.name + trial.name))
+        sim_prior <- c(brms::prior(normal(0.001, .3), class = "b"))
+        fit <- run_model_cmdstanr(sim_dataset,sim_form,"gaussian",sim_prior)
+
+
+
+# 2. Simulation
+
+nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
+sdParti <- c(0.25) # sd participants
+mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6) # for calculatingCohen's d
+
+        
+for (mDiff_loop in mDiff){ # test for different Cohen's d
+  for (sdParti_loop in sdParti){ # test different standard deviations for participants
+    for (nParti_loop in nParti){ # test different number of participants
+      for (loop in 1:500){
+        print(paste("-->> n_participant=",nParti_loop, "-- loop", loop))
+        total = 2 * nParti_loop * 4
+        
+        condition1 <- rnorm(total/2,mDiff_loop,1) %>% data.frame(condition.value = .) 
+        condition2 <- rnorm(total/2,0,1) %>% data.frame(condition.value = .) 
+        condition <- rbind(condition1,condition2) 
+        cohend = mDiff_loop /sd(condition$condition.value)
+        
+        # dit kan beter door elke participant ook conditioneel te maken tov conditie
+        participant <- rnorm(total,0,sdParti_loop) %>% data.frame(participant.value = .) 
+        trial <- rnorm(total,0,0.1 ) %>% data.frame(trial.value = .) 
+        
+        gr_value <- cbind(condition,participant,trial) %>% data.frame()
+        gr_name <- expand_grid(c("c1","c2"),factor(c(1:nParti_loop)),factor(c(1:n_trial)))  %>% data.frame() 
+        names(gr_name) <- c("condition.name","participant.name","trial.name")
+        gr <- cbind(gr_value,gr_name)
+        
+        sim_dataset <- gr %>% mutate(response = condition.value + participant.value + trial.value)
+        sim_dataset <- sim_dataset %>% mutate(condition.name = factor(condition.name),
+                                              participant.name = factor(participant.name),
+                                              trial.name = factor(trial.name))
+        
+        sim_model <-  update(fit,newdata = sim_dataset)
+        
+        h <- hypothesis(sim_model,c("b_condition.namec1 > b_condition.namec2") ,class = NULL)$hypothesis
+        score <- ifelse(h[7] > 0.95,1,0) %>% data.frame()
+        names(score) ="score"
+        hh <- cbind(h,score)
+        print(paste("-------->> score = ", score, 
+                    "nParti =", nParti_loop,
+                    "sdParti = ", sdParti_loop,
+                    "mDiff = ",mDiff_loop,
+                    "cohend = ", cohend))  #the real Dohen d
+        Score <- rbind(Score,cbind(hh, nParti_loop, sdParti_loop, mDiff_loop, cohend))
+        
+      }
+    } # p_loop
+  } #sd_loop
+} #d_loop
+
+```
+
+
+```{r}
+# simulation 1
+
+nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
+sdParti <- c(0.25) # sd participants
+mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6) # for calculatingCohen's d
+
+Info <- list(Cohen_d = 0.5, nParti = nParti, sdParti = sdParti)
+ScoreWithInfo = list(Score,Info)
+save(file = "Fit/PowerAnalyse03_ScoreWithInfo",ScoreWithInfo)
+
+Score <- ScoreWithInfo[[1]]
+
+
+
+```
+
+
+```{r}
+nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
+sdParti <- c(0.25) # sd participants
+mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5) # for calculatingCohen's d
+
+Info <- list(nParti = nParti, sdParti = sdParti, mDiff = mDiff)
+ScoreWithInfo = list(Score,Info)
+save(file = "Fit/PowerAnalyse03_ScoreWithInfo",ScoreWithInfo)
+
+Score <- ScoreWithInfo[[1]]
+
+Score <- ScoreWithInfo[[1]] %>% data.frame() %>% filter(!(p_loop == c(11)) )
+
+```
+
+
+
+
+```{r}
+Res0 <- Score %>% filter(!(nParti_loop == 11)) %>% group_by(nParti_loop,sdParti_loop,mDiff_loop) %>% summarize(s = mean(score))
+
+```
+
+
+
+
+```{r}
+
+po0 <- ggplot(Res0,aes(x=nParti_loop,y=s,color=factor(mDiff_loop)) ) +
+  geom_point(position = position_jitter(width=.1)) +
+labs(color = "D") +
+  geom_line() +
+  geom_vline(xintercept = 11, linetype = 2, color = "red") +
+  xlab("Number of participants") +
+ylab("Power") +
+  theme_bw() +
+  ggtitle("Power analysis") 
+po0
+
+make_fig("FiguresPaper/PowerAnalysis03",po0)
+
+
+
+po1 <- ggplot(Res0,aes(x=nParti_loop,y=s,color=factor(mDiff_loop))) +
+ # geom_point(position = position_jitter()) +
+ # stat_lineribbon() +
+    stat_summary(fun.y = mean, geom = "point") + 
+    stat_summary(fun.data = mean_hdci, geom = "errorbar")+
+  geom_vline(xintercept = 11, linetype = 2, color = "red") +
+  xlab("Number of participants") +
+ylab("Power c1 < c2") +
+  theme_bw() +
+  ggtitle("Power analysiss")
+po1
+
+po2 <- ggplot(Res0,aes(x=mDiff_loop,y=s,color=factor(nParti_loop))) +
+  geom_point(position = position_jitter(width = .01)) +
+  geom_line() +
+  #geom_vline(xintercept = 11, linetype = 2, color = "red") +
+  xlab("Cohen's d") +
+ylab("Power c1 < c2") +
+  theme_bw() +
+  ggtitle("Power analysiss")
+po2
+
+
+```
+
+# Correlations among the questionnaires
+
+```{r}
+wpq <- Data$WPQ
+mpqs <- Data$MPQS 
+mpqp <- Data$MPQP
+
+resp <- Data$response1M_procustus
+
+cor(wpq,mpqs, use = "complete")
+cor(wpq,mpqp, use = "complete")
+cor(mpqs,mpqp, use = "complete")
+
+cor(wpq,resp, use = "complete")
+cor(mpqs,resp, use = "complete")
+cor(mpqp,resp, use = "complete")
+
+ggplot() +
+  geom_point(aes(x=wpq,y=mpqs))
+
+ggplot() +
+  geom_point(aes(x=wpq,y=mpqp))
+
+ggplot() +
+  geom_point(aes(x=mpqs,y=mpqp))
