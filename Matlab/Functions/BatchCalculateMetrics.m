@@ -388,7 +388,7 @@ function DataArray = BatchCalculateMetrics(DataFolderPath,OutputPath)
     Tag = [nan(length(MPQP_C2),2),2*ones(length(MPQP_C2),1),C2.session,C2.participant,ones(length(MPQP_C2),1),4*ones(length(MPQP_C2),1)];
     PQ_C2 = [PQ_C2,Tag];
 
-    Difficulty_P2 = table2array(C2(:,65));
+    Difficulty_P2 = table2array(C2(:,66));
     Tag = [nan(length(MPQP_C2),1),2*ones(length(MPQP_C2),1),nan(length(MPQP_C2),1),C2.session,C2.participant,ones(length(MPQP_C2),1),7*ones(length(MPQP_C2),1)];
     Difficulty_P2 = [Difficulty_P2,Tag];
 

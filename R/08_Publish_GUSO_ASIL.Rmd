@@ -133,25 +133,6 @@ p7 / p8
 
 
 The original data of the metrics procustus and sparc are time series.
-Here we show a more refined approach for obtaining summarizing data of time series, based on smoothing over time using the R-packages `mgcv` and the function `gam()`.
-These data are extracted using spline smoothing and only the offsets of the smooths are retained, representing the time series means (TSM).
-figure 4 shows the smooths for the performance of participant 9, in condition 1 (2D), trials 1 to 4, belonging to group 11 (first violin, first piece).
-
-![Hypothesis testing](FiguresPaper/smooths_participantconditiontrial9.png)
-The offsets (called: TSMs) of these smooths are:
-
-```{r offsets, echo=FALSE}
-load(file = "Fit/GAM_procustus_G_11")
-G_11$coefficients["participantconditiontrial9.1.1"]
-G_11$coefficients["participantconditiontrial9.1.2"]
-G_11$coefficients["participantconditiontrial9.1.3"]
-G_11$coefficients["participantconditiontrial9.1.4"]
-```
-
-When apply this approach to all participants, conditions and trials, we obtain values that can be compared with the values obtaind by just taking the median values over time. Accordingly, the figure (labelled Figure 4) shows the correlation of TSM with 0M and 1M. 
-
-![Hypothesis testing](FiguresPaper/CopyOfresponse_correlation_TSM_M_procustus.png)
-
 
 # Regression modelling
 
@@ -223,15 +204,6 @@ print(paste("Bayes factor in favor of model_1 over model_2 (procustus1M): ", BF_
 print(paste("Bayes factor in favor of model_1 over model_2 (sparc1M): ", BF_model_comparison_sparc1M$bf ))
 ```
 
-
-### Bayes-factor TSM models
-
-```{r Bayes-factorTSM, echo=FALSE, message=TRUE}
-load(file = "Results/BF_model_comparison_procustusTSM.RData")
-print(paste("Bayes factor in favor of model_1 over model_2 (procustusTMS): ", BF_model_comparison_procustusTSM$bf ))
-```
-
-
 We conclude that there is strong evidence for model_1 (i.e., without `difficulty`).
 
 ## 2. Diagnostics
@@ -262,13 +234,6 @@ load(file = "Results/post_analysis_procustus1M.RData")
 load(file = "Results/post_analysis_sparc1M.RData")
 post_analysis_procustus1M
 post_analysis_sparc1M
-```
-
-### Diagnostics for TSM
-
-```{r DiagnostiicsTSM, echo=FALSE}
-load(file = "Results/post_analysis_procustusTSM.RData")
-post_analysis_procustusTSM
 ```
 
 
@@ -318,30 +283,8 @@ The graphs below are based on the calibrated models from which we took the group
 
 ![Posterior distributions of condition and trials -- procustus1M](FiguresPaper/ConditionTrialsPostDistr_procustus1M.png)
 
-![Posterior distributions of condition and trials -- procustusTSM](FiguresPaper/ConditionTrialsPostDistr_procustusTSM.png)
 
 ![Posterior distributions of condition and trials -- sparc1M](FiguresPaper/ConditionTrialsPostDistr_sparc1M.png)
-
-
-
-### Contrasts for TSM
-
-Here we show the contrasts of the TSM modelling.
-Resuts are in line with the calibrated procustus.
-
-
-```{r ContrastsTSM, echo=TRUE}
-load(file = "Results/hypothesis_test_procustusTSM.RData")
-
-hypothesis_test_procustusTSM[[1]][,1]
-hypothesis_test_procustusTSM[[1]][,-1]
-hypothesis_test_procustusTSM[[2]]
-
-
-```
-
-
-
 
 
 # PART 2 
