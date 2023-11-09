@@ -16,7 +16,7 @@ Brief demo: https://youtu.be/wvNUD60cC4w?si=cMILjP0t-OTKv-mR
     1. Download from Microsoft software page: www.microsoft.com/en-us/download/details.aspx?id=102778
     2. Install the MRT Extensions 2.8.3, Foundation 2.8.3, Tools 2.8.3, OpenXR Plugin 1.9.0, WinRT Projections 0.5.2009, Standard Assets 2.8.3, Examples 2.8.3 into your Unity project
     3. Follow MRTK setup instructions in Unity and restart Unity
-5.	Import CONTBOS Unity Package (Assets > Import Package > Custom Package) or, more bug-prone, copy the Assets folder from this Github repository over to your Unity project 
+5.	Import CONBOTS Unity Package (Assets > Import Package > Custom Package) or, more bug-prone, copy the Assets folder from this Github repository over to your Unity project 
 6.	To run app from a VR-ready PC:
     1. Assure you have “OpenXR” and “Holographic Remoting remote app feature group” enabled in XR Plug-in Management
     2. Open the Holographic Remoting window (Mixed Reality>Remoting>Holographic Remoting for Play Mode)
