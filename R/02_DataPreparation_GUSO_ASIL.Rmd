@@ -25,7 +25,7 @@ see 01_
 
 ### Step 1: Construct Data
 
-```{r getAgeMSE ,eval=FALSE, include=FALSE}
+```{r getAgeMSE, echo=TRUE}
 
 TotalDataSetTidyMarc <- read_csv("DataArray.csv", col_names = FALSE)
 
@@ -164,7 +164,7 @@ p5 <- ggplot(Data) +
 ```
 
 
-```{r getAgeMSE ,eval=FALSE, include=FALSE}
+```{r getAgeMSE, echo=TRUE}
 
 p001
 p002
@@ -173,7 +173,7 @@ p02
 ```
 
 ### Step 2: Save Data
-```{r storedata, eval=FALSE, include=FALSE}
+```{r storedata, echo=TRUE}
 
 Data <- Data %>% mutate(condition = factor(condition),
                                                      participant = factor(participant),

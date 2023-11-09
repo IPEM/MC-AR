@@ -12,13 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Set your working directory
 The directory we start from with knitr:
-```{r initialization, include=FALSE, echo=FALSE}
+```{r initialization, echo=TRUE}
 rm(list = ls())
 ```
   
 # Load libraries
 
-```{r download packages if needed, include=FALSE}
+```{r download packages if needed, echo=TRUE}
 
 library(tidyverse)
 #library(reshape2)

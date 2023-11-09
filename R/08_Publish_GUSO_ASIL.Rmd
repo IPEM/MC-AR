@@ -8,7 +8,6 @@ date: "2022-10-27"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
@@ -81,7 +80,7 @@ summary(Data)
 
 It is of interest to show the differences between non-calibrated and calibrated metrics, all obtained by taking the median of the data points (summarizing time).
 
-```{r showmetrics1, echo=FALSE}
+```{r showmetrics1, echo=TRUE}
 load(file = "Data.RData")
 library(ggplot2)
 library(patchwork)
@@ -104,7 +103,7 @@ p3 / p4
 
 Here we show the answers to 3 presence questionnaires and 1 question about perceived difficulty.
 
-```{r showmetrics2, echo=FALSE}
+```{r showmetrics2, echo=TRUE}
 load(file = "Data.RData")
 library(ggplot2)
 library(patchwork)
@@ -187,7 +186,7 @@ We tested the models for procustus and sparc and report here the log of the Baye
 
 ### Bayes-factor non-calibrated models
 
-```{r Bayes-factor0M, echo=FALSE}
+```{r Bayes-factor0M, echo=TRUE}
 load(file = "Results/BF_model_comparison_procustus0M.RData")
 load(file = "Results/BF_model_comparison_sparc0M.RData")
 print(paste("Bayes factor in favor of model_1 over model_2 (procutus0M): ", BF_model_comparison_procustus0M$bf ))
@@ -197,7 +196,7 @@ print(paste("Bayes factor in favor of model_1 over model_2 (sparc0M): ", BF_mode
 
 ### Bayes-factor calibrated models
 
-```{r Bayes-factor1M, echo=FALSE, message=TRUE}
+```{r Bayes-factor1M, echo=TRUE, message=TRUE}
 load(file = "Results/BF_model_comparison_procustus1M.RData")
 load(file = "Results/BF_model_comparison_sparc1M.RData")
 print(paste("Bayes factor in favor of model_1 over model_2 (procustus1M): ", BF_model_comparison_procustus1M$bf ))
@@ -220,7 +219,7 @@ We show the diagnostics both for the procustus and sparc model_1:
 
 ### Diagnostics for non-calibrated models
 
-```{r Diagnostiics0M, echo=FALSE}
+```{r Diagnostiics0M, echo=TRUE}
 load(file = "Results/post_analysis_procustus0M.RData")
 load(file = "Results/post_analysis_sparc0M.RData")
 post_analysis_procustus0M
@@ -229,7 +228,7 @@ post_analysis_sparc0M
 
 ### Diagnostics for calibrated models
 
-```{r Diagnostiics1M, echo=FALSE}
+```{r Diagnostiics1M, echo=TRUE}
 load(file = "Results/post_analysis_procustus1M.RData")
 load(file = "Results/post_analysis_sparc1M.RData")
 post_analysis_procustus1M
@@ -296,7 +295,7 @@ Part 2 of this analysis is related to questionnaire models and hypothesis 3 and 
 We tested the models for the 4 questions and report here the log of the Bayes factor.
 
 ### non-calibrated
-```{r Bayes-factorQ, echo=FALSE}
+```{r Bayes-factorQ, echo=TRUE}
 load(file = "Results/BF_model_comparison_WPQ_0M.RData")
 load(file = "Results/BF_model_comparison_MPQS_0M.RData")
 load(file = "Results/BF_model_comparison_MPQP_0M.RData")
@@ -309,7 +308,7 @@ print(paste("Bayes factor in favor of model_3 over model_4 (Difficulty_OM): ", B
 
 
 ### calibrated
-```{r Bayes-factorcali, echo=FALSE}
+```{r Bayes-factorcali, echo=TRUE}
 load(file = "Results/BF_model_comparison_WPQ_1M.RData")
 load(file = "Results/BF_model_comparison_MPQS_1M.RData")
 load(file = "Results/BF_model_comparison_MPQP_1M.RData")
@@ -336,7 +335,7 @@ We show the diagnostics both for the 4 question models:
 
 Given the fact that `procustus` has no substantial influence we use model_1 (without `procustus`)
 
-```{r DiagnosticsQ, echo=FALSE}
+```{r DiagnosticsQ, echo=TRUE}
 load(file = "Results/post_analysis_procustus_basicWPQ.RData")
 load(file = "Results/post_analysis_procustus_basicMPQS.RData")
 load(file = "Results/post_analysis_procustus_basicMPQP.RData")
@@ -348,11 +347,9 @@ post_analysis_procustus_basicMPQP
 #post_analysis_procustus_basicDifficulty
 ```
 
-
-
 ## 3. Contrasts
 
-```{r ContrastsQuestionnaires, echo=FALSE}
+```{r ContrastsQuestionnaires, echo=TRUE}
 load(file = "Results/Contrast_WPQ.RData")
 load(file = "Results/Contrast_MPQS.RData")
 load(file = "Results/Contrast_MPQP.RData")

@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Modelling non-calibrated procustus and sparc and save
-```{r modelling, eval=FALSE, include=FALSE}
+```{r modelling, echo=TRUE}
 load(file = "Data.RData")
 
 # non-calibrated models 0M
@@ -41,7 +41,7 @@ save(file = "Fit/model_sparc0M_d.RData", model_sparc0M_d)
 ```
 
 # Modelling calibrated procustus and sparc and save
-```{r modelling, eval=FALSE, include=FALSE}
+```{r modelling, echo=TRUE}
 load(file = "Data.RData")
 
 # syntax
@@ -69,7 +69,7 @@ save(file = "Fit/model_sparc1M_d.RData", model_sparc1M_d)
 ```
 
 # multivariate model for procustus and sparc
-```{r modelling, eval=FALSE, include=FALSE}
+```{r modelling, echo=TRUE}
 form0M_procustus <- bf(response0M_procustus ~ 0 + condition  +  (1 |A| condition:participant) + (1|B|condition:trial) )  
 form0M_sparc <- bf(response0M_sparc         ~ 0 + condition  +  (1 |A| condition:participant) + (1|B|condition:trial) )  
 form <- form0M_procustus + form0M_sparc
@@ -101,7 +101,7 @@ do_BF_comparison(model_1,model_2)
 ```
 
 # non-calibrated and calibrated procustus Questionnaires WQP MPQS MPQP Difficulty
-```{r questionnaires, eval=FALSE, include=FALSE}
+```{r questionnaires, echo=TRUE}
 load("Data.RData")
 
 prior0 <- c(brms::prior(normal(0, 3), class = "b"))
@@ -161,51 +161,51 @@ save(file = "Fit/modelH3response1M_Difficulty.RData",modelH3response1M_Difficult
 
 ```
 
-# Hypothesis 3: Multivariate model Questionnaires
-```{r questionnaires, eval=FALSE, include=FALSE}
-#save(file = "Results/modelH3response1M_MPQP.RData",modelH3response1M_WPQ)
-# Multivariate basic model
+<!-- # Hypothesis 3: Multivariate model Questionnaires -->
+<!-- ```{r questionnaires, echo=TRUE} -->
+<!-- #save(file = "Results/modelH3response1M_MPQP.RData",modelH3response1M_WPQ) -->
+<!-- # Multivariate basic model -->
 
-formWPQ  <- bf(WPQ ~ 1 + condition + (1  | A | condition:participant) + (1 | B | condition:trial) )
-formMPQS <- bf(MPQS ~ 1 + condition + (1 | A |  condition:participant) + (1 | B | condition:trial) )
-formMPQP <- bf(MPQP ~ 1 + condition  + (1 | A |  condition:participant) + (1 | B | condition:trial) )
-formMulti = formWPQ + formMPQS + formMPQP
-modelH3_Multi_basic <- run_model_cmdstanr(Data,formMulti,"gaussian",prior0)
+<!-- formWPQ  <- bf(WPQ ~ 1 + condition + (1  | A | condition:participant) + (1 | B | condition:trial) ) -->
+<!-- formMPQS <- bf(MPQS ~ 1 + condition + (1 | A |  condition:participant) + (1 | B | condition:trial) ) -->
+<!-- formMPQP <- bf(MPQP ~ 1 + condition  + (1 | A |  condition:participant) + (1 | B | condition:trial) ) -->
+<!-- #formMulti = formWPQ + formMPQS + formMPQP -->
+<!-- modelH3_Multi_basic <- run_model_cmdstanr(Data,formMulti,"gaussian",prior0) -->
 
-fit <- modelH3_Multi_basic
+<!-- fit <- modelH3_Multi_basic -->
 
-formWPQ  <- bf(WPQ ~ 1 + condition  * log_response0M_procustus + (1  | A | condition:participant) + (1 | B | condition:trial) )
-formMPQS <- bf(MPQS ~ 1 + condition  * log_response0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) )
-formMPQP <- bf(MPQP ~ 1 + condition   * log_response0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) )
-formMulti = formWPQ + formMPQS + formMPQP
-modelH3_Multi_metric <- run_model_cmdstanr(Data,formMulti,"gaussian",prior0)
+<!-- formWPQ  <- bf(WPQ ~ 1 + condition  * log_response0M_procustus + (1  | A | condition:participant) + (1 | B | condition:trial) ) -->
+<!-- formMPQS <- bf(MPQS ~ 1 + condition  * log_response0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) ) -->
+<!-- formMPQP <- bf(MPQP ~ 1 + condition   * log_response0M_procustus + (1 | A |  condition:participant) + (1 | B | condition:trial) ) -->
+<!-- #formMulti = formWPQ + formMPQS + formMPQP -->
+<!-- modelH3_Multi_metric <- run_model_cmdstanr(Data,formMulti,"gaussian",prior0) -->
 
-fit <- modelH3_Multi_metric
+<!-- fit <- modelH3_Multi_metric -->
 
-### post_analysis_Multi_basic <- do_post_analysis_Multi(modelH3_Multi_basic) ## this throws an error WARNING!!!
-hypothesis_testH3_Multi_basic_WPQ <- hypothesis(modelH3_Multi_basic,"b_WPQ_condition2 > 0", class = NULL)
-hypothesis_testH3_Multi_basic_MPQS <- hypothesis(modelH3_Multi_basic,"b_MPQS_condition2 > 0", class = NULL)
-hypothesis_testH3_Multi_basic_MPQP <- hypothesis(modelH3_Multi_basic,"b_MPQP_condition2 > 0 ", class = NULL)
+<!-- ### post_analysis_Multi_basic <- do_post_analysis_Multi(modelH3_Multi_basic) ## this throws an error WARNING!!! -->
+<!-- hypothesis_testH3_Multi_basic_WPQ <- hypothesis(modelH3_Multi_basic,"b_WPQ_condition2 > 0", class = NULL) -->
+<!-- hypothesis_testH3_Multi_basic_MPQS <- hypothesis(modelH3_Multi_basic,"b_MPQS_condition2 > 0", class = NULL) -->
+<!-- hypothesis_testH3_Multi_basic_MPQP <- hypothesis(modelH3_Multi_basic,"b_MPQP_condition2 > 0 ", class = NULL) -->
 
-### post_analysis_Multi_metric <- do_post_analysis_Multi(modelH3_Multi_metric) ## this throws an error WARNING!!!
-hypothesis_testH3_Multi_metric_WPQ <- hypothesis(modelH3_Multi_metric,"b_WPQ_condition2:log_response0M_procustus + b_WPQ_condition2 > b_WPQ_log_response0M_procustus", class = NULL)
-hypothesis_testH3_Multi_metric_MPQS <- hypothesis(modelH3_Multi_metric,"b_MPQS_condition2:log_response0M_procustus + b_MPQS_condition2 > b_MPQS_log_response0M_procustus", class = NULL)
-hypothesis_testH3_Multi_metric_MPQP <- hypothesis(modelH3_Multi_metric,"b_MPQP_condition2:log_response0M_procustus + b_MPQP_condition2 > b_MPQP_log_response0M_procustus", class = NULL)
-comparison_procustus_Multi_metric <- do_comparison(modelH3_Multi_basic,modelH3_Multi_metric)
+<!-- ### post_analysis_Multi_metric <- do_post_analysis_Multi(modelH3_Multi_metric) ## this throws an error WARNING!!! -->
+<!-- hypothesis_testH3_Multi_metric_WPQ <- hypothesis(modelH3_Multi_metric,"b_WPQ_condition2:log_response0M_procustus + b_WPQ_condition2 > b_WPQ_log_response0M_procustus", class = NULL) -->
+<!-- hypothesis_testH3_Multi_metric_MPQS <- hypothesis(modelH3_Multi_metric,"b_MPQS_condition2:log_response0M_procustus + b_MPQS_condition2 > b_MPQS_log_response0M_procustus", class = NULL) -->
+<!-- hypothesis_testH3_Multi_metric_MPQP <- hypothesis(modelH3_Multi_metric,"b_MPQP_condition2:log_response0M_procustus + b_MPQP_condition2 > b_MPQP_log_response0M_procustus", class = NULL) -->
+<!-- comparison_procustus_Multi_metric <- do_comparison(modelH3_Multi_basic,modelH3_Multi_metric) -->
 
-save(file = "Results/modelH3_Multi_basic.RData", modelH3_Multi_basic)
-save(file = "Results/modelH3_Multi_metric.RData", modelH3_Multi_metric)
+<!-- save(file = "Results/modelH3_Multi_basic.RData", modelH3_Multi_basic) -->
+<!-- save(file = "Results/modelH3_Multi_metric.RData", modelH3_Multi_metric) -->
 
-### save(file = "Results/post_analysis_Multi_basic.RData", post_analysis_Multi_basic)
-save(file = "Results/hypothesis_testH3_Multi_basic_WPQ.RData", hypothesis_testH3_Multi_basic_WPQ)
-save(file = "Results/hypothesis_testH3_Multi_basic_MPQS.RData", hypothesis_testH3_Multi_basic_MPQS)
-save(file = "Results/hypothesis_testH3_Multi_basic_MPQP.RData", hypothesis_testH3_Multi_basic_MPQP)
+<!-- ### save(file = "Results/post_analysis_Multi_basic.RData", post_analysis_Multi_basic) -->
+<!-- save(file = "Results/hypothesis_testH3_Multi_basic_WPQ.RData", hypothesis_testH3_Multi_basic_WPQ) -->
+<!-- save(file = "Results/hypothesis_testH3_Multi_basic_MPQS.RData", hypothesis_testH3_Multi_basic_MPQS) -->
+<!-- save(file = "Results/hypothesis_testH3_Multi_basic_MPQP.RData", hypothesis_testH3_Multi_basic_MPQP) -->
 
 
-### save(file = "Results/post_analysis_Multi_metric.RData", post_analysis_Multi_metric)
-save(file = "Results/hypothesis_testH3_Multi_metric_WPQ.RData", hypothesis_testH3_Multi_metric_WPQ)
-save(file = "Results/hypothesis_testH3_Multi_metric_MPQS.RData", hypothesis_testH3_Multi_metric_MPQS)
-save(file = "Results/hypothesis_testH3_Multi_metric_MPQP.RData", hypothesis_testH3_Multi_metric_MPQP)
-save(file = "Results/comparison_procustus_Multi_metric.RData", comparison_procustus_Multi_metric)
+<!-- ### save(file = "Results/post_analysis_Multi_metric.RData", post_analysis_Multi_metric) -->
+<!-- save(file = "Results/hypothesis_testH3_Multi_metric_WPQ.RData", hypothesis_testH3_Multi_metric_WPQ) -->
+<!-- save(file = "Results/hypothesis_testH3_Multi_metric_MPQS.RData", hypothesis_testH3_Multi_metric_MPQS) -->
+<!-- save(file = "Results/hypothesis_testH3_Multi_metric_MPQP.RData", hypothesis_testH3_Multi_metric_MPQP) -->
+<!-- save(file = "Results/comparison_procustus_Multi_metric.RData", comparison_procustus_Multi_metric) -->
 
-```
+<!-- ``` -->

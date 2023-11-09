@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Testing non-calibrated model procustus sparc responses
 
-```{r}
+```{r echo=TRUE}
 load(file = "Fit/model_procustus0M.RData")
 load(file = "Fit/model_procustus0M_d.RData")
 load(file = "Fit/model_sparc0M.RData")
@@ -36,7 +36,7 @@ save(file = "Results/hypothesis_test_sparc0M.RData", hypothesis_test_sparc0M)
 
 # Testing calibrated model procustus sparc responses
 
-```{r}
+```{r echo=TRUE}
 load(file = "Fit/model_procustus1M.RData")
 load(file = "Fit/model_procustus1M_d.RData")
 load(file = "Fit/model_sparc1M.RData")
@@ -46,7 +46,7 @@ BF_model_comparison_procustus1M <- do_BF_comparison(model_procustus1M,model_proc
 post_analysis_procustus1M <- do_post_analysis(model_procustus1M)
 hypothesis_test_procustus1M <- do_hypothesis_test(model_procustus1M)
 
-### BF_model_comparison_sparc1M <- do_BF_comparison(model_sparc1M,model_sparc1M_d) ## this throws an error as well WARNING!!!
+BF_model_comparison_sparc1M <- do_BF_comparison(model_sparc1M,model_sparc1M_d) ## this throws an error as well WARNING!!!
 post_analysis_sparc1M <- do_post_analysis(model_sparc1M)
 hypothesis_test_sparc1M <- do_hypothesis_test(model_sparc1M)
 
@@ -61,7 +61,7 @@ save(file = "Results/hypothesis_test_sparc1M.RData", hypothesis_test_sparc1M)
 
 ### A view on trial distributions
 #### Procustus over trials
-```{r}
+```{r echo=TRUE}
 load(file = "Fit/model_procustus1M.RData")
 fit <- model_procustus1M
 
@@ -91,7 +91,7 @@ make_fig("FiguresPaper/ConditionTrialsPostDistr_Procustus1M",p1)
 
 
 #### Sparc over trials
-```{r}
+```{r echo=TRUE}
 load(file = "Fit/model_sparc1M.RData")
 fit <- model_sparc1M
 
@@ -125,7 +125,7 @@ make_fig("FiguresPaper/ConditionTrialsPostDistr_Sparc1M",p1)
 
 # Testing non-Multivariate questionnaire models
 
-```{r testing, eval=FALSE, include=FALSE}
+```{r testing, echo=TRUE}
 
 load(file = "Fit/modelH3_WPQ.RData")
 load(file = "Fit/modelH3response0M_WPQ.RData")
@@ -173,8 +173,6 @@ post_analysis_procustus_basicDifficulty <- do_post_analysis(modelH3_Difficulty) 
 ### save(file = "Results/Contrast_MPQS.RData", Contrast_MPQS)
 ### save(file = "Results/Contrast_MPQP.RData", Contrast_WPQP)
 ### save(file = "Results/Contrast_Difficulty.RData", Contrast_Difficulty)
-
-
 
 save(file = "Results/BF_model_comparison_WPQ_0M.RData", BF_model_comparison_WPQ_0M)
 save(file = "Results/BF_model_comparison_MPQS_0M.RData", BF_model_comparison_MPQS_0M)
@@ -282,7 +280,7 @@ comparison_procustus_Multi_metric
 ```
 
 # Hypothesis 3: Procustus - calibrated
-```{r H3proc2, eval=FALSE, include=FALSE}
+```{r H3proc2, echo=TRUE}
 
 
 ### load(file = "Results/post_analysis_procustus1M_WPQ.RData") # WARNING

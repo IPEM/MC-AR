@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ### Modelling functions GUSO paper
-```{r modellingfunctions, eval=FALSE, include=FALSE}
+```{r modellingfunctions, echo=TRUE}
 load(file = "Data.RData")
 
 #############
@@ -180,75 +180,9 @@ return = list(m, b, par)
 }
 ```
 
-
-# do_calc is the basis routine for processing all data.
-
-```{r}
-do_calc <- function(Data1, metricsStr, Legende,prefix){
-  print(paste("do_calc processing of: ",metricsStr))
-  print(paste(metricsStr))
-  # ############
-  # 2.process metricsCol
-  # ############
-  foreach (i = 1:length(metricsStr))  %dopar% { 
-    # c = "V8"
-    # i = 1
-    str0 = metricsStr[i]
-    print(paste("co_calc processing of: ...", str0))
-    # Compose data
-    D <- Data1 %>% rename(feature = str0)
-    D_11 <- D %>% filter(violin == "1",piece == "1") %>% select ( !matches("V[123456789]") )
-    D_12 <- D %>% filter(violin == "1",piece == "2") %>% select ( !matches("V[123456789]") )
-    D_21 <- D %>% filter(violin == "2",piece == "1") %>% select ( !matches("V[123456789]") )
-    D_22 <- D %>% filter(violin == "2",piece == "2") %>% select ( !matches("V[123456789]") )
-    print("Process 11")
-    R_11 <- do_gam(D_11) # returns a list of G,D,P0,P1
-    print("Process 12")
-    R_12 <- do_gam(D_12) 
-    print("Process 21")
-    R_21 <- do_gam(D_21) 
-    print("Process 22")
-    R_22 <- do_gam(D_22) 
-    print("Creating titles for plots")
-    titleStr_11 <- paste(str0,  Legende$metric[Legende$columncode==str0], "_11", sep="")
-    titleStr_12 <- paste(str0,  Legende$metric[Legende$columncode==str0], "_12", sep="")
-    titleStr_21 <- paste(str0,  Legende$metric[Legende$columncode==str0], "_21", sep="")
-    titleStr_22 <- paste(str0,  Legende$metric[Legende$columncode==str0], "_22", sep="")
-    print("Creating plots")
-    Plot_11 <- do_plot(R_11)[[1]] + ggtitle(titleStr_11) # + ylim(0,1)
-    Plot_12 <- do_plot(R_12)[[1]] + ggtitle(titleStr_12)
-    Plot_21 <- do_plot(R_21)[[1]] + ggtitle(titleStr_21)
-    Plot_22 <- do_plot(R_22)[[1]] + ggtitle(titleStr_22) 
-    print("Creating filenames")
-    filenameR_11 = paste("Results/", prefix, str0, "_11.RData",sep="")
-    filenameR_12 = paste("Results/", prefix, str0, "_12.RData",sep="")
-    filenameR_21 = paste("Results/", prefix, str0, "_21.RData",sep="")
-    filenameR_22 = paste("Results/", prefix, str0, "_22.RData",sep="")
-    print(paste("do_calc fitted model to file..."))
-    R <- R_11
-    save(file = filenameR_11, R)
-    R <- R_12
-    save(file = filenameR_12, R)
-    R <- R_21
-    save(file = filenameR_21, R)
-    R <- R_22
-    save(file = filenameR_22, R)
-    filenameR_11 = paste("Figures/", prefix, str0, "_11",sep="")
-    filenameR_12 = paste("Figures/", prefix, str0, "_12",sep="")
-    filenameR_21 = paste("Figures/", prefix, str0, "_21",sep="")
-    filenameR_22 = paste("Figures/", prefix, str0, "_22",sep="")
-    print(paste("do_calc plot to file..."))
-    make_pdf_figure(filenameR_11 , Plot_11)
-    make_pdf_figure(filenameR_12 , Plot_12)
-    make_pdf_figure(filenameR_21 , Plot_21)
-    make_pdf_figure(filenameR_22 , Plot_22)
-  }
-}
-```
-
 # General functions for plotting
 
-```{r}
+```{r echo=TRUE}
 make_pdf_figure <- function(fn,fig){
   fn_pdf = paste(fn,".pdf",sep="")
   print(paste("plotting", fn_pdf))
@@ -298,55 +232,11 @@ make_fig <- function(fn,fig){
 ```
 
 
-# do_area: calculate the area of between dynamic global mean (P0 in do_gam) and dynamic specific mean (P1) in do_gam
-```{r}
-##########
-do_area <- function(R_){
-  # R_ <- R_11
-  R0 <- R_[[4]] # see P0 in do_gam
-  R1 <- R_[[5]] # see P1 in do_gam
-  RR2 <- R1 %>% mutate(fitted0 = R0$fitted, # use dynamic group mean
-                       upper0 = R0$upper,
-                       lower0 = R0$lower,
-                       fitted1 = R1$fitted, # use dynamic individual mean
-                       upper1 = R1$upper,
-                       lower1 = R1$lower,
-                       fitted_area = fitted1 - fitted0, # positive values mark worse performance than group
-                        upper_area = upper1 - upper0,
-                       lower_area = lower1 - lower0)
-  #ntimestep = length(unique(R0$timestep)) * length(unique(RR2$trial))
-  tRR <- RR2 %>% group_by(participantcondition)  %>% summarize(areaM = mean(fitted_area),
-                                                               areaU = mean(upper_area),
-                                                               areaL = mean(lower_area),
-                                                               fitted1M = mean(fitted1),
-                                                               fitted1U = mean(upper1),
-                                                               fitted1L = mean(lower1)) %>% ungroup() #, 
-                                                               #areaScaled = scale(area),
-                                                               #areaPlus = sum(areaScaled[areaScaled > 0]) / ntimestep, 
-                                                               #areaMin = sum(areaScaled[areaScaled < 0])/ ntimestep,
-                                                               #areaDiff = areaMin + areaPlus
-
-  return(tRR)
-}
-
-if(0){
-  RR %>% filter(participantcondition == "4.1") %>%
-    ggplot()+
-    geom_line(aes(x=timestep,y=fitted0),color = "blue") +
-    geom_line(aes(x=timestep,y=fitted1),color="red")
-  RR2 %>% 
-    ggplot()+
-    geom_point(aes(x=timestep,y=areaScaled,color = participantcondition),color = "blue") 
-}
-```
-
-
-
 # Function to calculate contrasts 26/01/2023
 Used for calculating contrasts of conditions in procustus, spark
 
 
-```{r}
+```{r echo=TRUE}
 do_contrast <- function(fit){
 
 #fit <- model_procustus0M_d2
