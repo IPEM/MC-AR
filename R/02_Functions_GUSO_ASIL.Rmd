@@ -22,8 +22,8 @@ run_model_cmdstanr <- function(Data, form, fam, priors){
              formula = form,
              family = fam,
              prior = priors,
-             iter = 4000, warmup = 1000,
-             control = list(adapt_delta = 0.995,  max_treedepth = 12),
+             iter = 2000, warmup = 500, # for testing, otherwise, use 4000 and 1000
+            # control = list(adapt_delta = 0.995,  max_treedepth = 12),
              # init = 0,
              # thin = 2,
              chains = 2,

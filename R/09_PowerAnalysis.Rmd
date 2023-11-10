@@ -25,13 +25,13 @@ run_model_cmdstanr <- function(Data, form, fam, priors){
              formula = form,
              family = fam,
              prior = priors,
-             iter = 6000, warmup = 2000,
-             control = list(adapt_delta = 0.96,  max_treedepth = 12),
+             iter = 2000, warmup = 500,  # set to 4000, 1000 for real tests
+            # control = list(adapt_delta = 0.96,  max_treedepth = 12),
              #init = 0,
              #thin = 2,
              chains = 2,
              backend = "cmdstanr",
-             threads = threading(45) ,
+             threads = threading(2) ,
             # save_pars = save_pars(all = TRUE),
             #
            sample_prior = TRUE ,
@@ -127,7 +127,7 @@ mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6) # for calculatingCohen's d
 for (mDiff_loop in mDiff){ # test for different Cohen's d
   for (sdParti_loop in sdParti){ # test different standard deviations for participants
     for (nParti_loop in nParti){ # test different number of participants
-      for (loop in 1:500){
+      for (loop in 1:5){ # 5 is for checking, use 500 in real test
         print(paste("-->> n_participant=",nParti_loop, "-- loop", loop))
         total = 2 * nParti_loop * 4
         
@@ -200,7 +200,7 @@ save(file = "Fit/PowerAnalyse03_ScoreWithInfo",ScoreWithInfo)
 
 Score <- ScoreWithInfo[[1]]
 
-Score <- ScoreWithInfo[[1]] %>% data.frame() %>% filter(!(p_loop == c(11)) )
+Score <- ScoreWithInfo[[1]] %>% data.frame() %>% filter(!(nParti_loop == c(11)) )
 
 ```
 
@@ -256,29 +256,3 @@ po2
 
 
 ```
-
-# Correlations among the questionnaires
-
-```{r}
-wpq <- Data$WPQ
-mpqs <- Data$MPQS 
-mpqp <- Data$MPQP
-
-resp <- Data$response1M_procustus
-
-cor(wpq,mpqs, use = "complete")
-cor(wpq,mpqp, use = "complete")
-cor(mpqs,mpqp, use = "complete")
-
-cor(wpq,resp, use = "complete")
-cor(mpqs,resp, use = "complete")
-cor(mpqp,resp, use = "complete")
-
-ggplot() +
-  geom_point(aes(x=wpq,y=mpqs))
-
-ggplot() +
-  geom_point(aes(x=wpq,y=mpqp))
-
-ggplot() +
-  geom_point(aes(x=mpqs,y=mpqp))

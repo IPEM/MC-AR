@@ -1,8 +1,8 @@
 ---
 title: "Supplementary Material"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
   word_document: default
 date: "2022-10-27"
 ---
@@ -339,12 +339,12 @@ Given the fact that `procustus` has no substantial influence we use model_1 (wit
 load(file = "Results/post_analysis_procustus_basicWPQ.RData")
 load(file = "Results/post_analysis_procustus_basicMPQS.RData")
 load(file = "Results/post_analysis_procustus_basicMPQP.RData")
-#load(file = "Results/post_analysis_procustus_basicDifficulty.RData")
+load(file = "Results/post_analysis_procustus_basicDifficulty.RData")
 
 post_analysis_procustus_basicWPQ
 post_analysis_procustus_basicMPQS
 post_analysis_procustus_basicMPQP
-#post_analysis_procustus_basicDifficulty
+post_analysis_procustus_basicDifficulty
 ```
 
 ## 3. Contrasts
@@ -353,13 +353,13 @@ post_analysis_procustus_basicMPQP
 load(file = "Results/Contrast_WPQ.RData")
 load(file = "Results/Contrast_MPQS.RData")
 load(file = "Results/Contrast_MPQP.RData")
-#load(file = "Results/Contrast_Difficulty.RData")
+load(file = "Results/Contrast_Difficulty.RData")
 
 Contrasts_Questionnaires <- rbind(
 Contrast_WPQ[[1]][-1],
 Contrast_MPQS[[1]][-1],
-Contrast_WPQP[[1]][-1]
-#Contrast_Difficulty[[1]][-1] 
+Contrast_WPQP[[1]][-1],
+Contrast_Difficulty[[1]][-1] 
 )
 rownames(Contrasts_Questionnaires) <- NULL
 

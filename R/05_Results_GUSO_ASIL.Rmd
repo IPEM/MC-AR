@@ -46,7 +46,7 @@ BF_model_comparison_procustus1M <- do_BF_comparison(model_procustus1M,model_proc
 post_analysis_procustus1M <- do_post_analysis(model_procustus1M)
 hypothesis_test_procustus1M <- do_hypothesis_test(model_procustus1M)
 
-BF_model_comparison_sparc1M <- do_BF_comparison(model_sparc1M,model_sparc1M_d) ## this throws an error as well WARNING!!!
+BF_model_comparison_sparc1M <- do_BF_comparison(model_sparc1M,model_sparc1M_d) 
 post_analysis_sparc1M <- do_post_analysis(model_sparc1M)
 hypothesis_test_sparc1M <- do_hypothesis_test(model_sparc1M)
 
@@ -54,7 +54,7 @@ save(file = "Results/BF_model_comparison_procustus1M.RData", BF_model_comparison
 save(file = "Results/post_analysis_procustus1M.RData", post_analysis_procustus1M)
 save(file = "Results/hypothesis_test_procustus1M.RData", hypothesis_test_procustus1M)
 
-### save(file = "Results/BF_model_comparison_sparc1M.RData", BF_model_comparison_sparc1M) error
+save(file = "Results/BF_model_comparison_sparc1M.RData", BF_model_comparison_sparc1M) 
 save(file = "Results/post_analysis_sparc1M.RData", post_analysis_sparc1M)
 save(file = "Results/hypothesis_test_sparc1M.RData", hypothesis_test_sparc1M)
 ```
@@ -163,16 +163,15 @@ post_analysis_procustus_basicMPQP <- do_post_analysis(modelH3_MPQP) #basic model
 post_analysis_procustus_basicDifficulty <- do_post_analysis(modelH3_Difficulty) #basic model
 
 # Contrasts: 
-# 
-### Contrast_WPQ <- do_hypothesis_test_Q(modelH3_WPQ) ## this throws an error: do_hypothesis_test_Q is not found! WARNING!!!
-### Contrast_MPQS <- do_hypothesis_test_Q(modelH3_MPQS)
-### Contrast_WPQP <- do_hypothesis_test_Q(modelH3_MPQP)
-### Contrast_Difficulty <- do_hypothesis_test_Q(modelH3_Difficulty)
+Contrast_WPQ <- do_hypothesis_test(modelH3_WPQ) 
+Contrast_MPQS <- do_hypothesis_test(modelH3_MPQS)
+Contrast_WPQP <- do_hypothesis_test(modelH3_MPQP)
+Contrast_Difficulty <- do_hypothesis_test(modelH3_Difficulty)
 
-### save(file = "Results/Contrast_WPQ.RData", Contrast_WPQ)
-### save(file = "Results/Contrast_MPQS.RData", Contrast_MPQS)
-### save(file = "Results/Contrast_MPQP.RData", Contrast_WPQP)
-### save(file = "Results/Contrast_Difficulty.RData", Contrast_Difficulty)
+save(file = "Results/Contrast_WPQ.RData", Contrast_WPQ)
+save(file = "Results/Contrast_MPQS.RData", Contrast_MPQS)
+save(file = "Results/Contrast_MPQP.RData", Contrast_WPQP)
+save(file = "Results/Contrast_Difficulty.RData", Contrast_Difficulty)
 
 save(file = "Results/BF_model_comparison_WPQ_0M.RData", BF_model_comparison_WPQ_0M)
 save(file = "Results/BF_model_comparison_MPQS_0M.RData", BF_model_comparison_MPQS_0M)
@@ -192,13 +191,13 @@ save(file = "Results/post_analysis_procustus_basicDifficulty.RData", post_analys
 
 ```
 
-# Hypothesis 3: Procustus - non-calibrated non-Multivariate models
+# Hypothesis 3: Procustus - non-calibrated models (only basic model)
 ```{r H3proc1, echo=TRUE}
 load(file = "Results/post_analysis_procustus_basicWPQ.RData")
-### load(file = "Results/post_analysis_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
-### load(file = "Results/hypothesis_test_procustus_basicWPQ.RData") # this throws an error! WARNING!!!
-### load(file = "Results/hypothesis_test_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
-### load(file = "Results/comparison_basic_procustus_WPQ.RData") # this throws an error! WARNING!!!
+# load(file = "Results/post_analysis_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
+# load(file = "Results/hypothesis_test_procustus_basicWPQ.RData") # this throws an error! WARNING!!!
+# load(file = "Results/hypothesis_test_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
+# load(file = "Results/comparison_basic_procustus_WPQ.RData") # this throws an error! WARNING!!!
 
 load(file = "Results/post_analysis_procustus_basicMPQS.RData")
 ### load(file = "Results/post_analysis_procustus0M_MPQS.RData") # this throws an error! WARNING!!!
@@ -239,44 +238,6 @@ post_analysis_procustus_basicMPQP
 ### hypothesis_test_procustus0M_MPQP # WARNING!!!
 # comparison basicMPQP and metricMPQP
 ### comparison_basic_procustus_MPQP # WARNING!!!
-```
-
-# Hypothesis 3: Multivariate model procustus non-cali
-```{r H3proc1, echo=TRUE}
-
-
-### load("Results/post_analysis_Multi_basic.RData") # WARNING
-load("Results/hypothesis_testH3_Multi_basic_WPQ.RData")
-load("Results/hypothesis_testH3_Multi_basic_MPQS.RData")
-load("Results/hypothesis_testH3_Multi_basic_MPQP.RData")
-
-
-### load(file = "Results/post_analysis_Multi_metric.RData") # WARNING
-load(file = "Results/hypothesis_testH3_Multi_metric_WPQ.RData")
-load(file = "Results/hypothesis_testH3_Multi_metric_MPQS.RData")
-load(file = "Results/hypothesis_testH3_Multi_metric_MPQP.RData")
-load(file = "Results/comparison_procustus_Multi_metric.RData")
-
-# multivariate model basic
-### post_analysis_Multi_basic # WARNING
-hypothesis_testH3_Multi_basic_WPQ
-hypothesis_testH3_Multi_basic_MPQS
-hypothesis_testH3_Multi_basic_MPQP
-
-
-
-
-# multivariate model metric
-### post_analysis_Multi_metric # WARNING
-hypothesis_testH3_Multi_metric_WPQ
-hypothesis_testH3_Multi_metric_MPQS
-hypothesis_testH3_Multi_metric_MPQP
-
-# comparison basic and metric
-comparison_procustus_Multi_metric
-
-
-
 ```
 
 # Hypothesis 3: Procustus - calibrated

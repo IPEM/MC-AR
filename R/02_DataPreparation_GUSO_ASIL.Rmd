@@ -183,6 +183,10 @@ Data <- Data %>% mutate_all(~ifelse(is.nan(.), NA, .)) %>% mutate(condition = fa
                                                      participant = factor(participant),
                                                      trial = factor(trial)
                                                      )
+w <- which(is.na(Data$Difficulty))
+Data$Difficulty[w] = 0
+w <- which(is.na(Data$difficulty_s))
+Data$difficulty_s[w] = 0
 
 save(file = "Data.RData", Data)
 

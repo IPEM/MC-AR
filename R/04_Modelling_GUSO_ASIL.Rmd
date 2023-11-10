@@ -68,37 +68,6 @@ save(file = "Fit/model_sparc1M_d.RData", model_sparc1M_d)
 
 ```
 
-# multivariate model for procustus and sparc
-```{r modelling, echo=TRUE}
-form0M_procustus <- bf(response0M_procustus ~ 0 + condition  +  (1 |A| condition:participant) + (1|B|condition:trial) )  
-form0M_sparc <- bf(response0M_sparc         ~ 0 + condition  +  (1 |A| condition:participant) + (1|B|condition:trial) )  
-form <- form0M_procustus + form0M_sparc
-prior <- get_prior( form, data = Data)
-model_1 <- run_model_cmdstanr(Data,form,"gaussian",prior)
-
-save(file = "Fit/model_1.RData", model_1)
-
-fit <- model_1
-pp_check(fit,resp="response0Mprocustus")
-pp_check(fit,resp="response0Msparc")
-
-
-form0M_procustus <- bf(response0M_procustus ~ 0 + condition*difficulty_s  +  (1 + difficulty_s |A| condition:participant) + (1|B|condition:trial) )  
-form0M_sparc <- bf(response0M_sparc         ~ 0 + condition*difficulty_s  +  (1 + difficulty_s |A| condition:participant) + (1|B|condition:trial) )  
-form <- form0M_procustus + form0M_sparc
-prior <- get_prior( form, data = Data)
-model_2 <- run_model_cmdstanr(Data,form,"gaussian",prior)
-
-save(file = "Fit/model_2.RData", model_2)
-
-fit <- model_2
-pp_check(fit,resp="response0Mprocustus")
-pp_check(fit,resp="response0Msparc")
-
-do_BF_comparison(model_1,model_2)
-#Estimated log Bayes factor in favor of fit1 over fit2: 14.74015
-
-```
 
 # non-calibrated and calibrated procustus Questionnaires WQP MPQS MPQP Difficulty
 ```{r questionnaires, echo=TRUE}
