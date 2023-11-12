@@ -89,7 +89,6 @@ make_fig("FiguresPaper/ConditionTrialsPostDistr_Procustus1M",p1)
 
 ```
 
-
 #### Sparc over trials
 ```{r echo=TRUE}
 load(file = "Fit/model_sparc1M.RData")
@@ -155,7 +154,6 @@ BF_model_comparison_MPQS_1M <- do_BF_comparison(modelH3_MPQS,modelH3response1M_M
 BF_model_comparison_MPQP_1M <- do_BF_comparison(modelH3_MPQP,modelH3response1M_MPQP)
 BF_model_comparison_Difficulty_1M <- do_BF_comparison(modelH3_Difficulty,modelH3response1M_Difficulty)
 
-
 # 2. Diagnostics: Given that model_2 (with Response) is not better, proceed with model_1 only
 post_analysis_procustus_basicWPQ <- do_post_analysis(modelH3_WPQ) #basic model
 post_analysis_procustus_basicMPQS <- do_post_analysis(modelH3_MPQS) #basic model
@@ -183,7 +181,6 @@ save(file = "Results/BF_model_comparison_MPQS_1M.RData", BF_model_comparison_MPQ
 save(file = "Results/BF_model_comparison_MPQP_1M.RData", BF_model_comparison_MPQP_1M)
 save(file = "Results/BF_model_comparison_Difficulty_1M.RData", BF_model_comparison_Difficulty_1M)
 
-
 save(file = "Results/post_analysis_procustus_basicWPQ.RData", post_analysis_procustus_basicWPQ)
 save(file = "Results/post_analysis_procustus_basicMPQS.RData", post_analysis_procustus_basicMPQS)
 save(file = "Results/post_analysis_procustus_basicMPQP.RData", post_analysis_procustus_basicMPQP)
@@ -194,69 +191,16 @@ save(file = "Results/post_analysis_procustus_basicDifficulty.RData", post_analys
 # Hypothesis 3: Procustus - non-calibrated models (only basic model)
 ```{r H3proc1, echo=TRUE}
 load(file = "Results/post_analysis_procustus_basicWPQ.RData")
-# load(file = "Results/post_analysis_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
-# load(file = "Results/hypothesis_test_procustus_basicWPQ.RData") # this throws an error! WARNING!!!
-# load(file = "Results/hypothesis_test_procustus0M_WPQ.RData") # this throws an error! WARNING!!!
-# load(file = "Results/comparison_basic_procustus_WPQ.RData") # this throws an error! WARNING!!!
-
 load(file = "Results/post_analysis_procustus_basicMPQS.RData")
-### load(file = "Results/post_analysis_procustus0M_MPQS.RData") # this throws an error! WARNING!!!
-### load(file = "Results/hypothesis_test_procustus_basicMPQS.RData") # this throws an error! WARNING!!!
-### load(file = "Results/hypothesis_test_procustus0M_MPQS.RData") # this throws an error! WARNING!!!
-### load(file = "Results/comparison_basic_procustus_MPQS.RData") # this throws an error! WARNING!!!
-
 load(file = "Results/post_analysis_procustus_basicMPQP.RData")
-### load(file = "Results/post_analysis_procustus0M_MPQP.RData") # this throws an error! WARNING!!!
-### load(file = "Results/hypothesis_test_procustus_basicMPQP.RData") # this throws an error! WARNING!!!
-### load(file = "Results/hypothesis_test_procustus0M_MPQP.RData") # this throws an error! WARNING!!!
-### load(file = "Results/comparison_basic_procustus_MPQP.RData") # this throws an error! WARNING!!!
-
 
 # basicWPQ
 post_analysis_procustus_basicWPQ
-### hypothesis_test_procustus_basicWPQ # WARNING!!!
-# metricWPQ
-### post_analysis_procustus0M_WPQ # WARNING!!!
-### hypothesis_test_procustus0M_WPQ  # WARNING!!!
-# comparison basicWPQ and metricWPQ
-### comparison_basic_procustus_WPQ # WARNING!!!
 
 # basicMPQS
 post_analysis_procustus_basicMPQS
-### hypothesis_test_procustus_basicMPQS # WARNING!!!
-# metricMPQS
-### post_analysis_procustus0M_MPQS # WARNING!!!
-### hypothesis_test_procustus0M_MPQS # WARNING!!!
-# comparison basicMPQS and metricMPQS
-### comparison_basic_procustus_MPQS # WARNING!!!
 
 # basicMPQP
 post_analysis_procustus_basicMPQP
-### hypothesis_test_procustus_basicMPQP # WARNING!!!
-# metricMPQP
-### post_analysis_procustus0M_MPQP # WARNING!!!
-### hypothesis_test_procustus0M_MPQP # WARNING!!!
-# comparison basicMPQP and metricMPQP
-### comparison_basic_procustus_MPQP # WARNING!!!
 ```
 
-# Hypothesis 3: Procustus - calibrated
-```{r H3proc2, echo=TRUE}
-
-
-### load(file = "Results/post_analysis_procustus1M_WPQ.RData") # WARNING
-### load(file = "Results/hypothesis_test_procustus1M_WPQ.RData") # WARNING
-
-### load(file = "Results/post_analysis_procustus1M_MPQS.RData") # WARNING
-### load(file = "Results/hypothesis_test_procustus1M_MPQS.RData") # WARNING
-
-### load(file = "Results/post_analysis_procustus1M_MPQP.RData") # WARNING
-### load(file = "Results/hypothesis_test_procustus1M_MPQP.RData") # WARNING
-
-### post_analysis_procustus1M_WPQ  # WARNING
-### hypothesis_test_procustus1M_WPQ # WARNING
-### post_analysis_procustus1M_MPQS # WARNING
-### hypothesis_test_procustus1M_MPQS # WARNING
-### post_analysis_procustus1M_MPQP # WARNING
-### hypothesis_test_procustus1M_MPQP # WARNING
-```
