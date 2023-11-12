@@ -1,29 +1,33 @@
-function Figure_CompareData(ResultAvatar, ResultParticipant, ROI, sel1, sel2, PD, dSparc, BL)
-    % CompareDataFig - illustrates a range of metrics comparing two signals
-    % of two different participants
+function Figure_CompareData(MocapDataSet1, MocapDataSet2, ROI, sel1, sel2, PD, dSparc, BL)
+    % CompareDataFig - Illustrate a range of metrics comparing two signals
+    % of two different violinists.
     %
     % Syntax:
-    %   CompareDataFig(BowAvatar1, BowParticipant1, ROI, sel1, sel2, PD, dSparc, BL)
+    %   CompareDataFig(MocapDataSet1, MocapDataSet2, ROI, sel1, sel2, PD, dSparc, BL)
     %
     % Input:
-    %   ResultAvatar - analyzed mocap data of avatar (participant 1)
-    %   ResultParticipant - analyzed mocap data  of participant (participant 2)
-    %   ROI - ROIs
-    %   sel1 - ROIs of upstrokes
-    %   sel2 - ROIs of downstrokes
-    %   PD - Procrustes distance
-    %   dSparc - Difference in SPARC
+    %   MocapDataSet1 - Analyzed mocap data of violinist 1.
+    %   MocapDataSet2 - Analyzed mocap data of violinist 2.
+    %   ROI - Regions of interest (ROIs).
+    %   sel1 - ROIs of upstrokes.
+    %   sel2 - ROIs of downstrokes.
+    %   PD - Procrustes distance.
+    %   dSparc - Difference in SPARC (Spectral Arc Length).
     %   BL - Difference in bowing length.
     %
     % Description:
     %   This function illustrates a range of metrics comparing two signals
-    %   of two different participants.
+    %   of two different violinists.
+    %   The metrics include Procrustes distance (PD), difference in SPARC,
+    %   and difference in bowing length (BL). The visual representation provides
+    %   insights into the similarity or dissimilarity between the violinist 
+    %   movements.
     
-    % Truncate BowAvatar1 and BowParticipant1 to the minimum length
-    BowAvatar1 = ResultAvatar.ProcessedMocapData.ProcessedData.BowPositionData.DB(:,1);
-    BowParticipant1 = ResultParticipant.ProcessedMocapData.ProcessedData.BowPositionData.DB(:,1);
+    % Truncate MocapDataSet1 and MocapDataSet2 to the minimum length
+    BowAvatar1 = MocapDataSet1.ProcessedMocapData.ProcessedData.BowPositionData.DB(:,1);
+    BowParticipant1 = MocapDataSet2.ProcessedMocapData.ProcessedData.BowPositionData.DB(:,1);
 
-    % Calculate the minimum length between BowAvatar1 and BowParticipant1
+    % Calculate the minimum length between MocapDataSet1 and MocapDataSet2
     L = min([length(BowAvatar1), length(BowParticipant1)]);
     
     % Create a time vector T from 0 to (L-1)/120 at intervals of 1/120
@@ -37,7 +41,7 @@ function Figure_CompareData(ResultAvatar, ResultParticipant, ROI, sel1, sel2, PD
     % Create a new figure
     figure
     
-    % First subplot: Data series for Bow Avatar 1 and Bow Participant 1
+    % First subplot: Data series for MocapDataSet1 and MocapDataSet2
     subplot(4, 1, 1)
     title('Bow position')
     hold on

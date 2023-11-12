@@ -1,11 +1,11 @@
 function DownloadRepo(DataFolderPath)
-    % DownloadRepo - downloads the necessary data files from Zenodo.
+    % DownloadRepo - Download the necessary data files from Zenodo.
     %
     % Syntax:
     %   DownloadRepo(DataFolderPath)
     %
     % Input:
-    %   DataFolderPath - folder where data will be stored after downloading.
+    %   DataFolderPath - Folder where data will be stored after downloading.
     %
     % Description:
     %   This function downloads the necessary data files from Zenodo to the

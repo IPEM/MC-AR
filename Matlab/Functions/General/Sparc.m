@@ -8,7 +8,7 @@ function Output = Sparc(Input1, Input2, Input3, Input4, Input5)
     % Input:
     %   Input1 - Array containing the movement speed profile.
     %   Input2 - Sampling frequency of the data.
-    %   Input3 - Amount of zero padding for spectral arc length estimation (default = 4).
+    %   Input3 - Amount of zero-padding for spectral arc length estimation (default = 4).
     %   Input4 - Maximum cut-off frequency for spectral arc length calculation (default = 10.0).
     %   Input5 - Amplitude threshold for determining the cut-off frequency for spectral arc length estimation (default = 0.05).
     %
@@ -16,8 +16,12 @@ function Output = Sparc(Input1, Input2, Input3, Input4, Input5)
     %   Output - Spectral arc length estimate of the movement's smoothness.
     %
     % Description:
-    %   This function computes the smoothness of a speed profile using the modified spectral arc
+    %   This function calculates the smoothness of a speed profile using the modified spectral arc
     %   length metric.
+    %
+    %   The spectral arc length is a metric used to quantify the smoothness of a
+    %   movement speed profile. It considers the spectral content of the profile
+    %   and provides an estimate of how smooth or jerky the movement is.
 
     % Check the number of input arguments and provide default values if necessary.
     if nargin < 2

@@ -15,69 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The power of a statistical test is the probability that a null hypothesis will be rejected when the alternative hypothesis is true.
 
-
-```{r}
-# cohen = .5
-
-run_model_cmdstanr <- function(Data, form, fam, priors){
-  print(paste(form[1],fam,sep="\n"))
-  fit <- brm(data = Data,
-             formula = form,
-             family = fam,
-             prior = priors,
-             iter = 2000, warmup = 500,  # set to 4000, 1000 for real tests
-            # control = list(adapt_delta = 0.96,  max_treedepth = 12),
-             #init = 0,
-             #thin = 2,
-             chains = 2,
-             backend = "cmdstanr",
-             threads = threading(2) ,
-            # save_pars = save_pars(all = TRUE),
-            #
-           sample_prior = TRUE ,
-           refresh = 0,
-           silent = 2
-             #file = filen
-  )
-  return(fit)
-}
-```
-
-
-```{r}
-# hier nog de creatie van de dataset
-
-    condition1 <- rnorm(total/2,0.5,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition1")
-    condition2 <- rnorm(total/2,0,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition2")
-    condition <- rbind(condition1,condition2) 
-   ggplot(sim_dataset) +
-  geom_histogram(aes(response, color = condition.name),bins = 30)
- 
-
-sim_form <- bf(response ~ 0 + condition.name + (1 | participant.name + trial.name))
-sim_prior <- c(brms::prior(normal(0.5, 1), class = "b"))
-
-ggplot(sim_dataset) +
-  geom_histogram(aes(response, color = condition.name),bins = 30)
-
-
-sim_model <- run_model_cmdstanr(sim_dataset,sim_form,"gaussian",sim_prior)
-```
-
-
-```{r}
-m_diff = 0.3
-
-
-    condition1 <- rnorm(total/2,m_diff,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition1")
-    condition2 <- rnorm(total/2,0,1) %>% data.frame(condition.value = .) #%>% mutate(condition.name = "condition2")
-    condition <- rbind(condition1,condition2) 
-    cohend = m_diff /sd(condition$condition.value)
-    cohend
-
-```
-
-
 ```{r echo=FALSE, warning=FALSE}
 Score <- data.frame()
 #Parti <- data.frame()

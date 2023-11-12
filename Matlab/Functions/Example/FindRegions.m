@@ -1,29 +1,32 @@
-function [ROI, seldownstrokes, selupstrokes] = FindRegions(BowAvatar1, SpectrogramAvatar, LoudnessThreshold, StrokeLength)
-    % FindRegions - Finds regions of interest (ROIs) in bow position data.
+function [ROI, seldownstrokes, selupstrokes] = FindRegions(BowingData, Spectrogram, LoudnessThreshold, StrokeLength)
+    % FindRegions - Find regions of interest (ROIs) in bow position data.
     %
     % Syntax:
-    %   [ROI, seldownstrokes, selupstrokes] = FindRegions(BowAvatar1, SpectrogramAvatar, LoudnessThreshold, StrokeLength)
+    %   [ROI, seldownstrokes, selupstrokes] = FindRegions(BowingData, Spectrogram, LoudnessThreshold, StrokeLength)
     %
     % Input:
-    %   BowAvatar1 - FID to be analyzed.
-    %   SpectrogramAvatar - Spectrogram associated with the FID.
+    %   BowingData - Bow position data to be analyzed.
+    %   Spectrogram - Spectrogram associated with the bow position data.
     %   LoudnessThreshold - Sets the minimal loudness as a filter.
     %   StrokeLength - Sets the minimal bow stroke length as a filter.
     %
     % Output:
-    %   ROI - Full ROIs of the FID.
+    %   ROI - Full ROIs of the bow position data.
     %   seldownstrokes - ROIs of the downstrokes.
     %   selupstrokes - ROIs of the upstrokes.
     %
     % Description:
     %   This function finds regions of interest (ROIs) in bow position data.
+    %   ROIs are determined based on specified criteria, including loudness
+    %   threshold and minimal bow stroke length. The output includes the full ROIs,
+    %   as well as separate ROIs for downstrokes and upstrokes.
 
     % Exclude silent parts and NaN values in the loudness data
-    LOUDNESS = SpectrogramAvatar; LOUDNESS = LOUDNESS - nanmin(LOUDNESS); LOUDNESS = LOUDNESS/nanmax(LOUDNESS);
+    LOUDNESS = Spectrogram; LOUDNESS = LOUDNESS - nanmin(LOUDNESS); LOUDNESS = LOUDNESS/nanmax(LOUDNESS);
     mLOUDNESS = nanmedian(LOUDNESS);
     LOUDNESSlimit = (LoudnessThreshold*mLOUDNESS);
     
-    FID = BowAvatar1;
+    FID = BowingData;
     dFID = diff(FID);
     sel2 = find(diff(sign(dFID))) + 1;
     sel21 = sel2(dFID(sel2)<0);

@@ -14,6 +14,9 @@ function spectrogramOutput = Spectrogram(AudioSignal, AudioFs, MocapFs, WindowLe
     %
     % Description:
     %   This function computes a spectrogram from an audio signal.
+    %
+    %   The spectrogram is a visual representation of the spectrum of frequencies
+    %   in the audio signal over time.
 
     % Calculate the window size in samples based on WindowLength and AudioFs
     Window = round(WindowLength * AudioFs);

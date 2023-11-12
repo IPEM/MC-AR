@@ -1,5 +1,5 @@
 function Output = ReshapeFile(Input, MetricNumber, FilterNans)
-    % ReshapeFile - Reshapes a data array for further processing.
+    % ReshapeFile - Reshape a data array for further processing.
     %
     % Syntax:
     %   Output = ReshapeFile(Input, MetricNumber, FilterNans)

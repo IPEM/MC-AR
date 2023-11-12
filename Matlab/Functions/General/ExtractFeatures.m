@@ -1,19 +1,31 @@
 function [cm] = ExtractFeatures(P, Q, Type)
-    % ExtractFeatures - calculates a range of metrics for signal comparison.
+    % ExtractFeatures - Calculate a range of metrics for signal comparison.
     %
     % Syntax:
     %   [cm] = ExtractFeatures(P, Q, Type)
     %
     % Input:
-    %   P - signal 1
-    %   Q - signal 2
-    %   Type - defines the type of analysis. Type = 1, procrustes distance; Type = 2, difference in SPARC; Type = 3, difference in bowing length.
+    %   P - Signal 1.
+    %   Q - Signal 2.
+    %   Type - Defines the type of analysis. 
+    %          Type = 1 for Procrustes distance.
+    %          Type = 2 for difference in SPARC (Spectral Arc Length).
+    %          Type = 3 for difference in bowing length.
     %
     % Output:
-    %   cm - metric describing the difference between signal 1 and signal 2, based on the metric defined by Type
+    %   cm - Metric describing the difference between Signal 1 and Signal 2, based on the metric defined by Type.
     %
     % Description:
     %   This function calculates a range of metrics for signal comparison.
+    %
+    %   The available metrics include:
+    %   - Procrustes distance (Type = 1)
+    %   - Difference in SPARC (Spectral Arc Length) (Type = 2)
+    %   - Difference in bowing length (Type = 3)
+    %
+    %   Each metric provides insights into different aspects of the similarity or difference
+    %   between Signal 1 and Signal 2. Users can specify the desired metric by setting the Type
+    %   parameter accordingly.
 
     % to be tested
     xP = P(:,:,1);

@@ -8,7 +8,7 @@ function Output = SparcDiff(Input0, Input1, Input2, Input3, Input4, Input5)
     %   Input0 - Array containing the movement speed profile.
     %   Input1 - Array containing another movement speed profile for comparison.
     %   Input2 - Sampling frequency of the data.
-    %   Input3 - Amount of zero padding for spectral arc length estimation (default = 4).
+    %   Input3 - Amount of zero-padding for spectral arc length estimation (default = 4).
     %   Input4 - Maximum cut-off frequency for spectral arc length calculation (default = 10.0).
     %   Input5 - Amplitude threshold for determining the cut-off frequency for spectral arc length estimation (default = 0.05).
     %
@@ -17,6 +17,11 @@ function Output = SparcDiff(Input0, Input1, Input2, Input3, Input4, Input5)
     %
     % Description:
     %   This function computes the difference between two SPARC values.
+    %
+    %   SPARC (Spectral Arc Length) is a measure used to quantify the spectral
+    %   characteristics of movement speed profiles. This function calculates the
+    %   SPARC difference between two input profiles, providing insights into their
+    %   dissimilarity in terms of spectral content.
 
     % Calculate the SPARC values for Input0 and Input1 by calling the Sparc function
     Fid0 = Sparc(Input0, Input2, Input3, Input4, Input5);

@@ -1,19 +1,22 @@
 function Output = BatchExtractFeatures(Input, LoudnessThreshold, StrokeLength, Grad, Type)
-    % BatchExtractFeatures - calculates a range of metrics comparing all signals
+    % BatchExtractFeatures - Calculate a range of metrics comparing all signals
     % in Input with one of the signals in Input.
     %
     % Syntax:
     %   Output = BatchExtractFeatures(Input, LoudnessThreshold, StrokeLength, Grad, Type)
     %
     % Input:
-    %   Input - data array of signals
+    %   Input - Data array of signals.
     %   LoudnessThreshold - Sets the minimal loudness as a filter.
     %   StrokeLength - Sets the minimal bow stroke length as a filter.
-    %   Grad - handles the first derivative of the signals if 1
-    %   Type - defines the type of analysis. Type = 1, procrustes distance; Type = 2, difference in SPARC; Type = 3, difference in bowing length.
+    %   Grad - Handles the first derivative of the signals if 1.
+    %   Type - Defines the type of analysis.
+    %          Type = 1 for Procrustes distance.
+    %          Type = 2 for difference in SPARC (Spectral Arc Length).
+    %          Type = 3 for difference in bowing length.
     %
     % Output:
-    %   Output - data array containing the calculated differences for a certain metric, for all rois.
+    %   Output - Data array containing the calculated differences for a certain metric for all ROIs.
     %
     % Description:
     %   This function calculates a range of metrics comparing all signals

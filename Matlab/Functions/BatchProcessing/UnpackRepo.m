@@ -1,5 +1,5 @@
 function UnpackRepo(DataFolderPath)
-    % UnpackRepo - Unpacks data from zip files located in the specified folder.
+    % UnpackRepo - Unpack data from zip files located in the specified folder.
     %
     % Syntax:
     %   UnpackRepo(DataFolderPath)

@@ -1,5 +1,20 @@
 function Output = ImportFile(filename)
-    
+    % ImportFile - Extract questionnaire data from the CSV files containing
+    % the answers to the questionnaires.
+    %
+    % Syntax:
+    %   Output = ImportFile(filename)
+    %
+    % Input:
+    %   filename - CSV file containing the questionnaire data.
+    %
+    % Output:
+    %   Output - Array containing the data from the questionnaires.
+    %
+    % Description:
+    %   This function extracts questionnaire data from the CSV files containing
+    %   the answers to the questionnaires.
+
     % Set up the Import Options and import the data
     opts = delimitedTextImportOptions("NumVariables", 69, "Encoding", "UTF-8");
     

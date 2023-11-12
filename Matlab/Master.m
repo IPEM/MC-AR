@@ -2,8 +2,9 @@
 clc
 clear
 close all
-addpath([cd,'/Functions/'])
-
+% addpath([cd,'/Functions/Example/'])
+addpath([cd,'/Functions/BatchProcessing/'])
+addpath([cd,'/Functions/General/'])
 %% 2. Demonstration of analysis
 % 2.1. Prepare workspace
 % Path to participant's MoCap data file
@@ -13,7 +14,7 @@ ParticipantMocapPath = [cd, '/Assets/ParticipantMoCap.csv'];
 AvatarMocapPath = [cd, '/Assets/AvatarMoCap.csv'];
 AvatarAudioPath = [cd, '/Assets/AvatarAudio.wav'];
 
-% 2.1. Compare the motion capture data of the Avatar and the participant
+% 2.1. Compare the motion capture data of the avatar and the participant
 AudioFs = 48000; MocapFs = 120; WindowLength = 10; LoudnessThreshold = 0.15; StrokeLength = 150;
 [PD, dSparc, dBL, ROI, ROIupstrokes, ROIdownstrokes, ResultAvatar, ResultParticipant] = CalculateMetrics(AvatarMocapPath, ParticipantMocapPath, AvatarAudioPath, AudioFs, MocapFs, WindowLength, LoudnessThreshold, StrokeLength);
 
