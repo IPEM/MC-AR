@@ -5,7 +5,7 @@
 - Marc Leman, Institute for Psychoacoustics and Electronic Music (IPEM), Ghent University, Miriam Makebaplein 1, 9000, Ghent, Belgium, marc.leman@ugent.be 
 
 ## 0. Abstract
-Three different software packages are presented here: A Unity package for simulating a virtual violinist in augmented reality on a HoloLens. The virtual violinist plays a pre-recorded piece, either as a 2D or a 3D projection. The piece can be started, stopped, forwarded, or rewound using a dedicated user interface. During interaction, eye movements are tracked. A MATLAB motion capture package for analysing the kinematic data of a user while interacting with the virtual violinist. An R package for power analysis and Bayesian statistical analysis of the kinematic data. These software packages can be easily adapted to test the kinematic behaviour of music students interacting with virtual teachers.
+Three different software packages are presented here: 1) A Unity package for simulating a virtual violinist in augmented reality on a HoloLens. The virtual violinist plays a pre-recorded piece, either as a 2D or a 3D projection. The piece can be started, stopped, forwarded, or rewound using a dedicated user interface. During interaction, eye movements are tracked. 2) A MATLAB motion capture package for analysing the kinematic data of a user while interacting with the virtual violinist. 3) An R package for power analysis and Bayesian statistical analysis of the kinematic data. These software packages can be easily adapted to test the kinematic behaviour of music students interacting with virtual teachers.
 
 ## 1.	Description of the packages:
 ### 1.	The Unity Package:
