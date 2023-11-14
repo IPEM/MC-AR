@@ -25,8 +25,8 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ### Step 1: Construct Data
 ```{r getAgeMSE, echo=TRUE}
 # Read the CSV file and preprocess data for analysis.
-TotalDataSetTidyMarc <- read_csv("DataArray.csv", col_names = FALSE)
-Data2 <- TotalDataSetTidyMarc %>% mutate(response = (X1), 
+TotalDataSetTidy <- read_csv("DataArray.csv", col_names = FALSE)
+Data2 <- TotalDataSetTidy %>% mutate(response = (X1), 
                                          violin = factor(X2), 
                                          piece = factor(X3),
                                          condition = factor(X4), 
@@ -69,7 +69,7 @@ Data <- data_metric
 
 rm(df.extended,df.extended.11,df.extended.12,df.extended.21,df.extended.22,
    df.11,df.12,df.21,df.22, 
-   Legend, Legende, TotalDataSetTidyMarc,
+   Legend, Legende, TotalDataSetTidy,
    Data2, 
    procustus, sparc, bowlength,
    WPQ,MPQS,MPQP,Difficulty
