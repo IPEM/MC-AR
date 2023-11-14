@@ -37,4 +37,4 @@ The package includes the following functions:
    Caption: Joint angle data of the participant (red) and avatar (blue), including flexion/extension (FE) and adduction/abduction (AA) of the wrist, FE and pronation/supination (PS) of the elbow, elevation (E), and PS of the shoulder, and bowing position.
 
 ## 5. CodeOcean capsule:
-The MATLAB codeocean capsule can be found at: https://codeocean.com/capsule/4877160/tree
+The MATLAB/R codeocean capsule can be found at: https://codeocean.com/capsule/7664457/tree

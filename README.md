@@ -45,7 +45,7 @@ In future versions, this code will be made available in R and Python, and it wil
 #### 2.5.	Publications:
 The code is used in [4,5,10] and in work in progress on exo-skeleton delivered haptic feedback for motor learning, and on longitudinal follow-up of skill acquisition in novice violin and drum students.
 #### 2.6.   CodeOcean capsule:
-The MATLAB codeocean capsule can be found at: https://codeocean.com/capsule/4877160/tree
+The MATLAB/R codeocean capsule can be found at: https://codeocean.com/capsule/7664457/tree
 
 ### 3.	The R Package:
 #### 3.1.	Description:
@@ -68,7 +68,7 @@ The software was primarily used for 2 publications [4,5]. However, adaptations o
 #### 3.4.	Publications: 
 The code is used in [4,5].
 #### 3.5.   CodeOcean capsule:
-The R codeocean capsule can be found at: https://codeocean.com/capsule/5921029/tree
+The MATLAB/R codeocean capsule can be found at: https://codeocean.com/capsule/7664457/tree
 
 ##4.	References
 1. 	Cao Z, Simon T, Wei SE, Sheikh Y. Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields. Proceedings - 30th IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017 [Internet]. 2016 Nov 24 [cited 2023 Oct 25];2017-January:1302–10. Available from: https://arxiv.org/abs/1611.08050v2

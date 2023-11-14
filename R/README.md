@@ -11,4 +11,4 @@ This package is compatible with R version 3.0.1. or higher.
 Run .Rmd scripts successively from 01_Initialization.Rmd to 05_Results.Rmd. If a power analysis is required, run 06_PowerAnalysis.Rmd. For a summary of the results with explanations, run 07_Summary.Rmd.
 
 ## 3. CodeOcean capsule:
-The R codeocean capsule can be found at: https://codeocean.com/capsule/5921029/tree
+The MATLAB/R codeocean capsule can be found at: https://codeocean.com/capsule/7664457/tree
