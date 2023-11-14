@@ -12,15 +12,16 @@ knitr::opts_chunk$set(echo = TRUE)
 # EXTRA power analysis
 The power of a statistical test is the probability that a null hypothesis will be rejected when the alternative hypothesis is true.
 ```{r echo=FALSE, warning=FALSE}
+# Initialize Score dataframe
 Score <- data.frame()
 #Parti <- data.frame()
 
+# Specify parameters for power analysis
 nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
 sdParti <- c(0.25) # sd participants
 mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5) # for calculatingCohen's d
 
-# 1. Initialize
- # Create dataset
+# 1. Initialize - Create a simulated dataset and fit a Bayesian model
         n_condition = 2
         n_participant = 11
         n_trial = 4
@@ -46,8 +47,7 @@ mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5) # for calculatingCohen's d
         sim_prior <- c(brms::prior(normal(0.001, .3), class = "b"))
         fit <- run_model_cmdstanr(sim_dataset,sim_form,"gaussian",sim_prior)
 
-# 2. Simulation
-
+# 2. Simulation - Perform power analysis for different parameters
 nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
 sdParti <- c(0.25) # sd participants
 mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6) # for calculatingCohen's d
@@ -97,8 +97,7 @@ for (mDiff_loop in mDiff){ # test for different Cohen's d
 ```
 
 ```{r}
-# simulation 1
-
+# Save simulation results along with additional information
 nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
 sdParti <- c(0.25) # sd participants
 mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6) # for calculatingCohen's d
@@ -111,6 +110,7 @@ Score <- ScoreWithInfo[[1]]
 ```
 
 ```{r}
+# Filter out unnecessary data
 nParti <- c(5, 10, 11, 15, 20, 25, 30) # number participants
 sdParti <- c(0.25) # sd participants
 mDiff <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5) # for calculatingCohen's d
@@ -125,10 +125,12 @@ Score <- ScoreWithInfo[[1]] %>% data.frame() %>% filter(!(nParti_loop == c(11)) 
 ```
 
 ```{r}
+# Analyze and visualize simulation results
 Res0 <- Score %>% filter(!(nParti_loop == 11)) %>% group_by(nParti_loop,sdParti_loop,mDiff_loop) %>% summarize(s = mean(score))
 ```
 
 ```{r}
+# Create power analysis plots
 po0 <- ggplot(Res0,aes(x=nParti_loop,y=s,color=factor(mDiff_loop)) ) +
   geom_point(position = position_jitter(width=.1)) +
 labs(color = "D") +

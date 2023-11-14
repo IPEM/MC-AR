@@ -11,7 +11,9 @@ output:
 
 # Set up R environment
 ```{r setup, include=FALSE}
+# Set up R environment options.
 knitr::opts_chunk$set(echo = TRUE)
+# Custom chunk hook to handle font size in LaTeX output.
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
@@ -22,6 +24,7 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 
 ### Step 1: Construct Data
 ```{r getAgeMSE, echo=TRUE}
+# Read the CSV file and preprocess data for analysis.
 TotalDataSetTidyMarc <- read_csv("DataArray.csv", col_names = FALSE)
 Data2 <- TotalDataSetTidyMarc %>% mutate(response = (X1), 
                                          violin = factor(X2), 
@@ -35,6 +38,7 @@ Data2 <- TotalDataSetTidyMarc %>% mutate(response = (X1),
                                          data_type = factor(as.integer(X8), labels = c("procustus","sparc","bowlength","WPQ","MPQS","MPQP","Difficulty")) 
 )
 
+# Transform the data and create separate datasets for different types.
 procustus <- Data2 %>% filter(data_type == "procustus") %>% 
   mutate(responseScaled = scale(response, center = TRUE, scale = TRUE),
          responseN_procustus = responseScaled - min(responseScaled)
@@ -71,6 +75,7 @@ rm(df.extended,df.extended.11,df.extended.12,df.extended.21,df.extended.22,
    WPQ,MPQS,MPQP,Difficulty
    ) 
 
+# Visualization and exploration of the data.
 min(data_metric$responseN_procustus)
 max(data_metric$responseN_procustus)
 hist(data_metric$responseN_procustus,n=100)
@@ -146,6 +151,7 @@ p5 <- ggplot(Data) +
   geom_point(aes(x=response0M_procustus,y=scale(Difficulty), color = condition), position = position_jitterdodge())
 ```
 
+# Create summary plots for Procustus and Sparc.
 ```{r getAgeMSE, echo=TRUE}
 p001
 p002
@@ -155,6 +161,7 @@ p02
 
 ### Step 2: Save Data
 ```{r storedata, echo=TRUE}
+# Clean the data and save it for further analysis.
 Data <- Data %>% mutate(condition = factor(condition),
                                                      participant = factor(participant),
                                                      trial = factor(trial)
@@ -165,10 +172,12 @@ Data <- Data %>% mutate_all(~ifelse(is.nan(.), NA, .)) %>% mutate(condition = fa
                                                      trial = factor(trial)
                                                      )
 
+# Handle missing values in the data.
 w <- which(is.na(Data$Difficulty))
 Data$Difficulty[w] = 0
 w <- which(is.na(Data$difficulty_s))
 Data$difficulty_s[w] = 0
 
+# Save the cleaned data to a file.
 save(file = "Data.RData", Data)
 ```

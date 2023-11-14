@@ -7,14 +7,16 @@ output: html_document
 
 # Set up R environment
 ```{r setup, include=FALSE}
+# Set up R environment options.
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Modelling functions GUSO paper
 ```{r modellingfunctions, echo=TRUE}
+# Load cleaned data
 load(file = "Data.RData")
 
-# Modelling longitudinal model
+# Function to run the Bayesian model using cmdstanr
 run_model_cmdstanr <- function(Data, form, fam, priors){
   print(paste(form[1],fam,sep="\n"))
   fit <- brm(data = Data,
@@ -35,17 +37,20 @@ run_model_cmdstanr <- function(Data, form, fam, priors){
   return(fit)
 }
 
+# Function to perform Bayesian model comparison
 do_BF_comparison <- function(fit1,fit2){
   bf <- bayes_factor(fit1,fit2,log=TRUE)
   return(bf)
 }
 
+# Function for post-analysis of the Bayesian model
 do_post_analysis <- function(fit){
   # fit <- model_procustus0M
   library(patchwork)
   t <- fit$formula
   print(t)
   p <- pp_check(fit, ndraws = 50)
+  # Visualization and summary of the Bayesian model results.
   m <- mcmc_plot(fit, regex = TRUE, variable = "^[bs]_")
   #ce <- plot(conditional_effects(fit, re_formula = NA), ask = FALSE)[[1]]
   #sd <- fit %>% spread_draws(`r_condition:trial`[A,Intercept]) %>% 
@@ -66,6 +71,7 @@ do_post_analysis <- function(fit){
   return(list(t,p01,b,par))
 }
 
+# Function to perform hypothesis testing
 do_hypothesis_test <- function(fit){
   # Contrast condition2 condition1
   h1 <- hypothesis(fit,c("b_condition1 < b_condition2") ,class = NULL)$hypothesis
@@ -146,12 +152,14 @@ p <- (p1 + p2)
   return(list(hh,p))
 }
 
+# Function for model comparison
 do_comparison <- function(fit1,fit2){
   bf <- bayes_factor(fit1,fit2)
   l <- loo(fit1,fit2)
   return(list(bf,l))
 }
 
+# Function for multi-model post-analysis
 do_post_analysis_Multi <- function(fit) {
   t <- fit$formula
     m <- mcmc_plot(fit, regex = TRUE, variable = "^b_")
@@ -181,6 +189,8 @@ return = list(m, b, par)
 
 # General functions for plotting
 ```{r echo=TRUE}
+# Functions for generating different types of figures.
+# Save figure as a PDF file.
 make_pdf_figure <- function(fn,fig){
   fn_pdf = paste(fn,".pdf",sep="")
   print(paste("plotting", fn_pdf))
@@ -189,6 +199,7 @@ make_pdf_figure <- function(fn,fig){
   dev.off()
 }
 
+# Save figure as a PNG file.
 make_png_figure <- function(fn,fig){
   fn_png = paste(fn,".png",sep="")
   print(paste("plotting", fn_png))
@@ -197,6 +208,7 @@ make_png_figure <- function(fn,fig){
   dev.off()
 }
 
+# Save figure as a SVG file.
 make_svg_figure <- function(fn,fig){
   fn_svg = paste(fn,".svg",sep="")
   print(paste("plotting", fn_svg))
@@ -207,6 +219,7 @@ make_svg_figure <- function(fn,fig){
   dev.off()
 }
 
+# Save figure as a EPS file.
 make_eps_figure <- function(fn,fig){
   fn_eps = paste(fn,".eps",sep="")
   print(paste("plotting", fn_eps))
@@ -217,6 +230,7 @@ make_eps_figure <- function(fn,fig){
   dev.off()
 }
 
+# Generate and save figures in multiple formats.
 make_fig <- function(fn,fig){
   make_pdf_figure(fn,fig)
   make_png_figure(fn,fig)
@@ -228,6 +242,7 @@ make_fig <- function(fn,fig){
 # Function to calculate contrasts
 Used for calculating contrasts of conditions in procustus, sparc
 ```{r echo=TRUE}
+# Calculate contrasts and generate plots.
 do_contrast <- function(fit){
 
 #fit <- model_procustus0M_d2

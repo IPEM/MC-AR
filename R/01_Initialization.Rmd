@@ -6,17 +6,23 @@ output: html_document
 ---
 
 # Set up R environment
+# The following code sets up options for the R environment in the document.
+# 'echo = TRUE' specifies that R code in subsequent chunks will be displayed.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Set your working directory
-The directory we start from with knitr:
+# Set your working directory:
+# This is the directory where we begin with knitr.
+# The following code clears the workspace at the beginning of the document.
+# 'rm(list = ls())' removes all objects in the global environment.
 ```{r initialization, echo=TRUE}
 rm(list = ls())
 ```
   
 # Load libraries
+# The following code loads various R packages used in the analysis.
+# Uncomment the 'install.packages' lines to install the packages if not already installed.
 ```{r download packages if needed, echo=TRUE}
 library(tidyverse)
 #library(reshape2)
