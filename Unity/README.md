@@ -10,7 +10,7 @@ Unity version: 2021.3.16f
 ## 2. Project demonstration
 Brief demo: https://youtu.be/wvNUD60cC4w?si=cMILjP0t-OTKv-mR
 
-<img width="525" alt="image" src="https://github.com/IPEM/SIMPAC/assets/22716256/803932f7-c410-4978-aed2-aa65a1111be1"> 
+<img width="525" alt="image" src="https://github.com/IPEM/MC-AR/assets/22716256/803932f7-c410-4978-aed2-aa65a1111be1"> 
 
 ## 3. Project set-up, launch, build, and deploy:
 1.	Install XR plugin management (Project settings > XR Plugin Management)

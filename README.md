@@ -27,7 +27,7 @@ While the application is built for the HoloLens platform, future versions will b
 #### 1.5.	Publications:
 The code has been used in [4,5].
 #### 1.6.   Source:
-The code is not suited for the codeocean format, and can be downloaded at: https://github.com/IPEM/SIMPAC
+The code is not suited for the codeocean format, and can be downloaded at: https://github.com/IPEM/MC-AR
 
 ### 2.	The MATLAB Package:
 #### 2.1.	Description:

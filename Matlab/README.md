@@ -29,11 +29,11 @@ The package includes the following functions:
 ## 4. Illustrations
 
 1. **Figure 1**
-![Figure 1](https://github.com/IPEM/SIMPAC/blob/main/Matlab/Assets/Figure_1.jpg)
+![Figure 1](https://github.com/IPEM/MC-AR/blob/main/Matlab/Assets/Figure_1.jpg)
    Caption: From top to bottom: (1) Bowing use of the participant (red) and avatar (blue). Thicker lines represent analyzed sections; (2) Procrustes distance comparing analyzed sections between participant and avatar (PD); (3) Difference in SPARC index (dSI); (4) Difference in bowing length (dBL).
 
 2. **Figure 2**
-![Figure 2](https://github.com/IPEM/SIMPAC/blob/main/Matlab/Assets/Figure_2.jpg)
+![Figure 2](https://github.com/IPEM/MC-AR/blob/main/Matlab/Assets/Figure_2.jpg)
    Caption: Joint angle data of the participant (red) and avatar (blue), including flexion/extension (FE) and adduction/abduction (AA) of the wrist, FE and pronation/supination (PS) of the elbow, elevation (E), and PS of the shoulder, and bowing position.
 
 ## 5. CodeOcean capsule:
