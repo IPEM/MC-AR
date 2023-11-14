@@ -26,7 +26,7 @@ The software is currently primarily used at IPEM and has no commercial applicati
 While the application is built for the HoloLens platform, future versions will be made cross-platform to target other virtual and augmented reality devices. A first target will be novel mixed-reality devices such as the Meta Quest 3 to leverage its improved field-of-view and capability to switch between virtual and augmented reality.
 #### 1.5.	Publications:
 The code has been used in [4,5].
-#### 1.6.   Source:
+#### 1.6.   CodeOcean capsule:
 The code is not suited for the codeocean format, and can be downloaded at: https://github.com/IPEM/MC-AR
 
 ### 2.	The MATLAB Package:

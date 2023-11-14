@@ -2,7 +2,7 @@
 
 ## 0. Introduction
 This folder contains a Unity project to create, build, and display an interactive violinist and simple user interface to start, stop, and fast-forward animations playback in the Hololens 2. 
-All files are included except the .fbx model and sound files as they are larger than the 25MB Github upload limit. One can download the .unitypackage with all files from CodeOcean (https://codeocean.com/capsule/1868603/tree).
+All files are included except the .fbx model and sound files as they are larger than the 25MB Github upload limit. One can download the .unitypackage with all files from GitHub (https://github.com/IPEM/MC-AR/blob/main/Unity/Packages/CONBOTS_3D_male_24102023.unitypackage).
 
 ## 1. Unity Version
 Unity version: 2021.3.16f
