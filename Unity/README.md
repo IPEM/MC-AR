@@ -1,14 +1,18 @@
-# Unity implementation for an interactive virtual violinist (Hololens 2)
+# MC-AR - A software suite for comparative mocap analysis in an augmented reality environment (Unity-part)
+
+## 0. Introduction
 This folder contains a Unity project to create, build, and display an interactive violinist and simple user interface to start, stop, and fast-forward animations playback in the Hololens 2. 
 All files are included except the .fbx model and sound files as they are larger than the 25MB Github upload limit. One can download the .unitypackage with all files from CodeOcean (https://codeocean.com/capsule/1868603/tree).
 
+## 1. Unity Version
 Unity version: 2021.3.16f
 
+## 2. Project demonstration
 Brief demo: https://youtu.be/wvNUD60cC4w?si=cMILjP0t-OTKv-mR
 
 <img width="525" alt="image" src="https://github.com/IPEM/SIMPAC/assets/22716256/803932f7-c410-4978-aed2-aa65a1111be1"> 
 
-## Project set-up, launch, build, and deploy:
+## 3. Project set-up, launch, build, and deploy:
 1.	Install XR plugin management (Project settings > XR Plugin Management)
     1. Install Open XR
 3.	Switch to UWP build platform (File > Build settings > Universal Windows Platform)
@@ -35,11 +39,11 @@ Brief demo: https://youtu.be/wvNUD60cC4w?si=cMILjP0t-OTKv-mR
     4. Set target as “Release”, “ARM64”, and “Device”
     5. Click on “Device” to launch compile and deployment (you might be asked to pair your your PC with your Hololens)
 
-## Scripts:
+## 4. Scripts:
 Scripts included in the Unity package should be self-explanatory. Some general description of their functionality is presented below.
 -	GestureManager.cs: Collects pointer events, specifically, the pinch gesture to set the ground level and orient the violinist animation within the real space. An alternative way to collect pointer events is to use the PointerHandler.cs and DetermineFloorLevel.cs scripts.
 -	ControlAnimation.cs: Collects action events from the button and slider user interface to start, stop, and fast-forward audio and the violinist animation. 
 -	Data logging: The LogActions.cs and EyeTracker.cs each use a different way to write data to a .txt file. The first uses the static TextWriter class in TextWriter.cs, the second uses a writer object initialized in the script itself (“new StreamWriter(path)”). The reason for two approaches is to show a more elegant implementation with a Static class for the first, but a more efficient one for the second as eye gaze data is written every 100ms.
 
-## Animations:
+## 5. Animations:
 The animations consist of a male or female virtual human with motion capture and audio recordings of four compositions (Dvorak 1st violin, Dvorak 2nd violin, Holst 1st violin, Brahms 2nd violin). 
