@@ -1,0 +1,199 @@
+---
+title: "05_Results"
+author: "Marc Leman"
+date: "14/11/2023"
+output: html_document
+---
+
+# Set up R environment
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Testing non-calibrated model procustus sparc responses
+```{r echo=TRUE}
+load(file = "Fit/model_procustus0M.RData")
+load(file = "Fit/model_procustus0M_d.RData")
+load(file = "Fit/model_sparc0M.RData")
+load(file = "Fit/model_sparc0M_d.RData")
+
+BF_model_comparison_procustus0M <- do_BF_comparison(model_procustus0M,model_procustus0M_d)
+post_analysis_procustus0M <- do_post_analysis(model_procustus0M)
+hypothesis_test_procustus0M <- do_hypothesis_test(model_procustus0M)
+
+BF_model_comparison_sparc0M <- do_BF_comparison(model_sparc0M,model_sparc0M_d)
+post_analysis_sparc0M <- do_post_analysis(model_sparc0M)
+hypothesis_test_sparc0M <- do_hypothesis_test(model_sparc0M)
+
+save(file = "Results/BF_model_comparison_procustus0M.RData", BF_model_comparison_procustus0M)
+save(file = "Results/post_analysis_procustus0M.RData", post_analysis_procustus0M)
+save(file = "Results/hypothesis_test_procustus0M.RData", hypothesis_test_procustus0M)
+
+save(file = "Results/BF_model_comparison_sparc0M.RData", BF_model_comparison_sparc0M)
+save(file = "Results/post_analysis_sparc0M.RData", post_analysis_sparc0M)
+save(file = "Results/hypothesis_test_sparc0M.RData", hypothesis_test_sparc0M)
+```
+
+# Testing calibrated model procustus sparc responses
+```{r echo=TRUE}
+load(file = "Fit/model_procustus1M.RData")
+load(file = "Fit/model_procustus1M_d.RData")
+load(file = "Fit/model_sparc1M.RData")
+load(file = "Fit/model_sparc1M_d.RData")
+
+BF_model_comparison_procustus1M <- do_BF_comparison(model_procustus1M,model_procustus1M_d)
+post_analysis_procustus1M <- do_post_analysis(model_procustus1M)
+hypothesis_test_procustus1M <- do_hypothesis_test(model_procustus1M)
+
+BF_model_comparison_sparc1M <- do_BF_comparison(model_sparc1M,model_sparc1M_d) 
+post_analysis_sparc1M <- do_post_analysis(model_sparc1M)
+hypothesis_test_sparc1M <- do_hypothesis_test(model_sparc1M)
+
+save(file = "Results/BF_model_comparison_procustus1M.RData", BF_model_comparison_procustus1M)
+save(file = "Results/post_analysis_procustus1M.RData", post_analysis_procustus1M)
+save(file = "Results/hypothesis_test_procustus1M.RData", hypothesis_test_procustus1M)
+
+save(file = "Results/BF_model_comparison_sparc1M.RData", BF_model_comparison_sparc1M) 
+save(file = "Results/post_analysis_sparc1M.RData", post_analysis_sparc1M)
+save(file = "Results/hypothesis_test_sparc1M.RData", hypothesis_test_sparc1M)
+```
+
+# A view on trial distributions
+# Procustus over trials
+```{r echo=TRUE}
+load(file = "Fit/model_procustus1M.RData")
+fit <- model_procustus1M
+
+sd <- fit %>% spread_draws(`r_condition:trial`[A,Intercept],`b_condition1`,`b_condition2`) 
+sd_11 <- sd %>% filter(A == c("1_1")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_1", c = "1", t = "1" )
+sd_12 <- sd %>% filter(A == c("1_2")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_2", c = "1", t = "2" )
+sd_13 <- sd %>% filter(A == c("1_3")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_3", c = "1", t = "3" )
+sd_14 <- sd %>% filter(A == c("1_4")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_4", c = "1", t = "4" )
+sd_21 <- sd %>% filter(A == c("2_1")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_1", c = "2", t = "1" )
+sd_22 <- sd %>% filter(A == c("2_2")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_2", c = "2", t = "2" )
+sd_23 <- sd %>% filter(A == c("2_3")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_3", c = "2", t = "3" )
+sd_24 <- sd %>% filter(A == c("2_4")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_4", c = "2", t = "4" )
+
+sd_ct <- rbind(sd_11, sd_12, sd_13, sd_14, sd_21, sd_22, sd_23, sd_24)
+
+p1 <- sd_ct %>% 
+  ggplot(aes(x= t, y = ct_values, color = c)) + 
+  stat_pointinterval(.width = c(.5,.95), position = position_dodge(width = 0.2)) +
+  theme_bw() +
+  xlab("trial") +
+  ylab("Post. distr. (ci-50/95%) of condition and trials") +
+  ggtitle("Procustus calibrated")
+
+make_fig("FiguresPaper/ConditionTrialsPostDistr_Procustus1M",p1)
+
+```
+
+# Sparc over trials
+```{r echo=TRUE}
+load(file = "Fit/model_sparc1M.RData")
+fit <- model_sparc1M
+
+sd <- fit %>% spread_draws(`r_condition:trial`[A,Intercept],`b_condition1`,`b_condition2`) 
+sd_11 <- sd %>% filter(A == c("1_1")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_1", c = "1", t = "1" )
+sd_12 <- sd %>% filter(A == c("1_2")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_2", c = "1", t = "2" )
+sd_13 <- sd %>% filter(A == c("1_3")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_3", c = "1", t = "3" )
+sd_14 <- sd %>% filter(A == c("1_4")) %>% mutate(ct_values = `r_condition:trial` + `b_condition1`, ct_names = "1_4", c = "1", t = "4" )
+sd_21 <- sd %>% filter(A == c("2_1")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_1", c = "2", t = "1" )
+sd_22 <- sd %>% filter(A == c("2_2")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_2", c = "2", t = "2" )
+sd_23 <- sd %>% filter(A == c("2_3")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_3", c = "2", t = "3" )
+sd_24 <- sd %>% filter(A == c("2_4")) %>% mutate(ct_values = `r_condition:trial` + `b_condition2`, ct_names = "2_4", c = "2", t = "4" )
+
+sd_ct <- rbind(sd_11, sd_12, sd_13, sd_14, sd_21, sd_22, sd_23, sd_24)
+
+p1 <- sd_ct %>% 
+  ggplot(aes(x= t, y = ct_values, color = c)) + 
+  stat_pointinterval(.width = c(.5,.95), position = position_dodge(width = 0.2)) +
+  theme_bw() +
+  xlab("trial") +
+  ylab("Post. distr. (ci-50/95%) of condition and trials") +
+  ggtitle("Sparc calibrated")
+
+make_fig("FiguresPaper/ConditionTrialsPostDistr_Sparc1M",p1)
+
+```
+
+# questionnaires
+# Testing non-Multivariate questionnaire models
+```{r testing, echo=TRUE}
+
+load(file = "Fit/modelH3_WPQ.RData")
+load(file = "Fit/modelH3response0M_WPQ.RData")
+load(file = "Fit/modelH3response1M_WPQ.RData")
+
+load(file = "Fit/modelH3_MPQS.RData")
+load(file = "Fit/modelH3response0M_MPQS.RData")
+load(file = "Fit/modelH3response1M_MPQS.RData")
+
+load(file = "Fit/modelH3_MPQP.RData")
+load(file = "Fit/modelH3response0M_MPQP.RData")
+load(file = "Fit/modelH3response1M_MPQP.RData")
+
+load(file = "Fit/modelH3_Difficulty.RData")
+load(file = "Fit/modelH3response0M_Difficulty.RData")
+load(file = "Fit/modelH3response1M_Difficulty.RData")
+
+# All models are procustus based
+# 1. Bayes_test: Is model_1 (without Response) better than model_2 (with?)
+BF_model_comparison_WPQ_0M <- do_BF_comparison(modelH3_WPQ,modelH3response0M_WPQ)
+BF_model_comparison_MPQS_0M <- do_BF_comparison(modelH3_MPQS,modelH3response0M_MPQS)
+BF_model_comparison_MPQP_0M <- do_BF_comparison(modelH3_MPQP,modelH3response0M_MPQP)
+BF_model_comparison_Difficulty_0M <- do_BF_comparison(modelH3_Difficulty,modelH3response0M_Difficulty)
+
+BF_model_comparison_WPQ_1M <- do_BF_comparison(modelH3_WPQ,modelH3response1M_WPQ)
+BF_model_comparison_MPQS_1M <- do_BF_comparison(modelH3_MPQS,modelH3response1M_MPQS)
+BF_model_comparison_MPQP_1M <- do_BF_comparison(modelH3_MPQP,modelH3response1M_MPQP)
+BF_model_comparison_Difficulty_1M <- do_BF_comparison(modelH3_Difficulty,modelH3response1M_Difficulty)
+
+# 2. Diagnostics: Given that model_2 (with Response) is not better, proceed with model_1 only
+post_analysis_procustus_basicWPQ <- do_post_analysis(modelH3_WPQ) #basic model
+post_analysis_procustus_basicMPQS <- do_post_analysis(modelH3_MPQS) #basic model
+post_analysis_procustus_basicMPQP <- do_post_analysis(modelH3_MPQP) #basic model
+post_analysis_procustus_basicDifficulty <- do_post_analysis(modelH3_Difficulty) #basic model
+
+# Contrasts: 
+Contrast_WPQ <- do_hypothesis_test(modelH3_WPQ) 
+Contrast_MPQS <- do_hypothesis_test(modelH3_MPQS)
+Contrast_WPQP <- do_hypothesis_test(modelH3_MPQP)
+Contrast_Difficulty <- do_hypothesis_test(modelH3_Difficulty)
+
+save(file = "Results/Contrast_WPQ.RData", Contrast_WPQ)
+save(file = "Results/Contrast_MPQS.RData", Contrast_MPQS)
+save(file = "Results/Contrast_MPQP.RData", Contrast_WPQP)
+save(file = "Results/Contrast_Difficulty.RData", Contrast_Difficulty)
+
+save(file = "Results/BF_model_comparison_WPQ_0M.RData", BF_model_comparison_WPQ_0M)
+save(file = "Results/BF_model_comparison_MPQS_0M.RData", BF_model_comparison_MPQS_0M)
+save(file = "Results/BF_model_comparison_MPQP_0M.RData", BF_model_comparison_MPQP_0M)
+save(file = "Results/BF_model_comparison_Difficulty_0M.RData", BF_model_comparison_Difficulty_0M)
+
+save(file = "Results/BF_model_comparison_WPQ_1M.RData", BF_model_comparison_WPQ_1M)
+save(file = "Results/BF_model_comparison_MPQS_1M.RData", BF_model_comparison_MPQS_1M)
+save(file = "Results/BF_model_comparison_MPQP_1M.RData", BF_model_comparison_MPQP_1M)
+save(file = "Results/BF_model_comparison_Difficulty_1M.RData", BF_model_comparison_Difficulty_1M)
+
+save(file = "Results/post_analysis_procustus_basicWPQ.RData", post_analysis_procustus_basicWPQ)
+save(file = "Results/post_analysis_procustus_basicMPQS.RData", post_analysis_procustus_basicMPQS)
+save(file = "Results/post_analysis_procustus_basicMPQP.RData", post_analysis_procustus_basicMPQP)
+save(file = "Results/post_analysis_procustus_basicDifficulty.RData", post_analysis_procustus_basicDifficulty)
+```
+
+# Hypothesis 3: Procustus - non-calibrated models (only basic model)
+```{r H3proc1, echo=TRUE}
+load(file = "Results/post_analysis_procustus_basicWPQ.RData")
+load(file = "Results/post_analysis_procustus_basicMPQS.RData")
+load(file = "Results/post_analysis_procustus_basicMPQP.RData")
+
+# basicWPQ
+post_analysis_procustus_basicWPQ
+
+# basicMPQS
+post_analysis_procustus_basicMPQS
+
+# basicMPQP
+post_analysis_procustus_basicMPQP
+```
